@@ -53,7 +53,9 @@
   .display { font-family: Anton, "Anton Fallback", Impact, sans-serif; text-transform: uppercase; line-height: .85; letter-spacing: -.01em; }
 
   /* sister-site switcher: fixed above the header; --bar offsets the header and the docked logo below it */
-  .sites { position: fixed; inset: 0 0 auto; z-index: 12; height: var(--bar); display: flex; justify-content: center; align-items: center; gap: 22px; background: var(--pink); color: var(--cream); font-size: 15px; font-weight: 600; padding-top: env(safe-area-inset-top); }
+  .sites a { transition: opacity .15s; }
+  html.bar-min .sites a { opacity: 0; } /* the 1px strip would otherwise show a sliver of the text */
+  .sites { position: fixed; inset: 0 0 auto; z-index: 12; height: var(--bar); display: flex; justify-content: center; align-items: center; gap: 22px; background: var(--pink); color: var(--cream); font-size: 15px; font-weight: 600; padding-top: env(safe-area-inset-top); overflow: hidden; }
   .sites a { text-decoration: none; opacity: .8; }
   .sites a:hover, .sites a[aria-current] { opacity: 1; }
   .sites a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
@@ -892,6 +894,9 @@
   const safeTop = parseFloat(getComputedStyle(probe).paddingTop) || 0; probe.remove();
   document.documentElement.style.setProperty("--bar", 34 + safeTop + "px");
   const BAR = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar"));
+  // scrolling down hides the Label | Publisher links (on the way down; they return on any scroll up): the bar eases down to a 1px pink strip (plus the status-bar inset on phones, so the pink stays);
+  // --bar drives everything that sits under it (header, docked logo, wave line, menu), so they all slide up with it
+  const BAR_MIN = safeTop + 1; let barNow = BAR, barLast = BAR, barHidden = false, lastSY = scrollY;
   // main color comes from CSS --pink; the canvas, browser theme color and favicon follow it
   const PINK = getComputedStyle(document.documentElement).getPropertyValue("--pink").trim();
   document.querySelector("meta[name=theme-color]").content = PINK;
@@ -915,6 +920,13 @@
   document.fonts && document.fonts.ready.then(() => geo = null);
   let lastMark = "", lastE = -1, lastFrame = ""; const lastLetter = [];
   const tick = () => {
+    // hides on the way down, comes back on any scroll up (and always at the very top); small jitters under 3px are ignored
+    const dyS = scrollY - lastSY;
+    if (scrollY < 60) { barHidden = false; lastSY = scrollY; } else if (dyS > 3) { barHidden = true; lastSY = scrollY; } else if (dyS < -3) { barHidden = false; lastSY = scrollY; }
+    const barTarget = barHidden ? BAR_MIN : BAR;
+    document.documentElement.classList.toggle("bar-min", barHidden && scrollY >= 60);
+    barNow += (barTarget - barNow) * .2; if (Math.abs(barTarget - barNow) < .3) barNow = barTarget;
+    if (barNow !== barLast) { barLast = barNow; document.documentElement.style.setProperty("--bar", barNow + "px"); }
     const vh = innerHeight;
     geo = geo || measure();
     const { vw, bigW, bigH, hh, top, svgH, lineW, HEADER_W, dyEnd } = geo;
@@ -924,7 +936,7 @@
     // shrink so the lockup always fits on screen while it morphs, ending at HEADER_W for WAYU
     const s = Math.min(lerp(1, HEADER_W / bigW, e), vw * .92 / lerp(bigW, lineW, e));
     const x = lerp((vw - bigW * s) / 2, vw * .04, e);
-    const y = lerp(top + (hh - top - bigH) / 2, 36 + BAR - svgH * s / 2, e); // docked: centered on the 72px header, level with the nav
+    const y = lerp(top + (hh - top - bigH) / 2, 36 + barNow - svgH * s / 2, e); // docked: centered on the 72px header, level with the nav
     const mt = `translate(${x}px, ${y}px) scale(${s})`;
     if (mt !== lastMark) { lastMark = mt; mark.style.transform = mt; } // untouched frames (docked, or standing still) write nothing
     if (e !== lastE) { lastE = e; mark.style.setProperty("--e", e); }
@@ -957,7 +969,7 @@
       lastFrame = frame;
       wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       wctx.clearRect(0, 0, W, H); wctx.globalAlpha = 1;
-      const amp = lerp(10 + Math.min(energy, 90), 1 + Math.min(energy, 30) * .15, e), baseY = lerp(hh * (vw <= 800 ? .92 : .82), 72 + BAR, e), cx = (moved ? mx + .5 : .5) * W;
+      const amp = lerp(10 + Math.min(energy, 90), 1 + Math.min(energy, 30) * .15, e), baseY = lerp(hh * (vw <= 800 ? .92 : .82), 72 + barNow, e), cx = (moved ? mx + .5 : .5) * W;
       const ip = introStart === null ? 0 : Math.min(1, (performance.now() - introStart) / 650), ie = 1 - (1 - ip) ** 3; // 0 -> 1, eased
       const stp = vw <= 800 ? 10 : 6; // fewer points per line on phones
       // the scribble: the same lines curled into a small spiral on the line's own spot that spins and draws itself while the page loads (ie = 0), unrolling into the real wave (ie = 1)
