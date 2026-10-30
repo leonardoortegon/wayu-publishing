@@ -93,6 +93,7 @@
   body { transition: opacity .3s; }
   html.fonts-wait body { opacity: 0; }
   section { padding: 14vh 4vw; }
+  section { scroll-margin-top: calc(var(--bar) + 72px); } /* anchor jumps stop just under the fixed header, so each section's title stays visible */
   h2 { line-height: .92; font-size: clamp(56px, 12vw, 180px); margin-bottom: 6vh; }
   @media (max-width: 800px) { section { padding-block: 44px; } h2 { margin-bottom: 24px; } }
   /* our story: solid pink block, cream type; founders as tilted name stickers */
