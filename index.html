@@ -695,6 +695,7 @@
   },
   {
     "songwriter_name": "NAZMIYE ELIF TANVERDI",
+    "priority": true,
     "primary_artist": "Elif",
     "associated_artists": [],
     "tagline": null,
@@ -722,6 +723,7 @@
   },
   {
     "songwriter_name": "UNDERS",
+    "priority": true,
     "primary_artist": "UNDERS",
     "associated_artists": ["UNDERS"],
     "tagline": null,
@@ -735,6 +737,7 @@
   //   songwriter_name  legal name, shown if there's no primary_artist
   //   primary_artist   the artist name shown on the card (one of associated_artists), or null to show songwriter_name
   //   tagline          the one-liner under the photo, e.g. "Electronica" (null = "Songwriter")
+  //   priority         true on the biggest artists: one of them (random each visit) always gets the first card; leave it off for everyone else
   //   image_url        a full URL or a file in assets/ (null = initials placeholder). Best: 4:5 crops at assets/cards/name-400.webp and name-800.webp, listing the -800 file; phones and retina screens get the 800 (a card is at most ~400px wide, ~800 device pixels)
   //                    shortcut: photos under 800px wide keep the 800w label anyway, harmless since they can't look sharper; re-export when a bigger photo arrives
   //   associated_artists, bio   kept for reference, not shown yet
@@ -774,6 +777,8 @@
   // runs after the script finishes, so the glass-shape code further down is ready (initShapes)
   Promise.resolve().then(() => JSON.parse(document.getElementById("songwriters").textContent)).then(list => {
     for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } // new order on every visit
+    const lead = list.filter(w => w.priority); // "priority": true = one of these always takes the first card (picked at random each visit), so on a phone the first card is always one of them
+    if (lead.length) { const first = lead[Math.floor(Math.random() * lead.length)]; list.splice(list.indexOf(first), 1); list.unshift(first); }
     const WRITERS = list.map(w => ({ name: w.primary_artist || w.songwriter_name, credits: w.tagline || "Songwriter", photo: w.image_url }));
     grid.innerHTML = WRITERS.map((w, i) => `
       <div class="writer">
