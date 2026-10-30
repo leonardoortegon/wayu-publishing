@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>WAYU Publishing — Independent Music Publishing for Songwriters</title>
 <meta name="description" content="WAYU Publishing is an artist-first independent music publisher. We register, track and collect your mechanical, performance and sync royalties worldwide.">
 <link rel="canonical" href="https://wayupublishing.com/">
@@ -36,16 +36,16 @@
   .display { font-family: Anton, Impact, sans-serif; text-transform: uppercase; line-height: .85; letter-spacing: -.01em; }
 
   /* sister-site switcher: fixed above the header; --bar offsets the header and the docked logo below it */
-  .sites { position: fixed; inset: 0 0 auto; z-index: 12; height: var(--bar); display: flex; justify-content: center; align-items: center; gap: 22px; background: var(--pink); color: var(--cream); font-size: 15px; font-weight: 600; }
+  .sites { position: fixed; inset: 0 0 auto; z-index: 12; height: var(--bar); display: flex; justify-content: center; align-items: center; gap: 22px; background: var(--pink); color: var(--cream); font-size: 15px; font-weight: 600; padding-top: env(safe-area-inset-top); }
   .sites a { text-decoration: none; opacity: .8; }
   .sites a:hover, .sites a[aria-current] { opacity: 1; }
   .sites a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
   header { position: fixed; inset: var(--bar) 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 4vw; z-index: 12; height: 72px; }
-  nav { margin-left: auto; display: flex; gap: 10px; }
+  nav { margin-left: auto; display: flex; align-items: center; gap: 6px; }
   .pill { background: var(--pink); color: var(--cream); padding: 10px 22px; border-radius: 99px; text-decoration: none; font-weight: 600; transition: transform .2s; }
   .pill:hover { transform: scale(1.06) rotate(-2deg); }
   /* menu: three-line button opens a full-screen solid pink panel of section links */
-  .burger { width: 44px; height: 44px; margin-left: 6px; display: grid; place-content: center; gap: 6px; background: none; border: 0; cursor: pointer; color: var(--pink); }
+  .burger { width: 44px; height: 44px; margin: 0 -8px 0 -4px; /* icon lines up with the page margin; tighter to the button */ display: grid; place-content: center; gap: 6px; background: none; border: 0; cursor: pointer; color: var(--pink); }
   .burger i { display: block; width: 28px; height: 3px; border-radius: 3px; background: currentColor; }
   .menu { position: fixed; inset: 0; z-index: 30; background: var(--pink); color: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 0 4vw; clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .5s cubic-bezier(.7,0,.2,1), visibility 0s .5s; }
   .menu.open { clip-path: inset(0); visibility: visible; transition: clip-path .5s cubic-bezier(.7,0,.2,1); }
@@ -54,8 +54,10 @@
   .menu footer span { letter-spacing: .12em; text-transform: uppercase; }
   .menu footer a { display: inline-flex; align-items: center; gap: .28em; font-size: clamp(30px, 4.5vw, 64px); text-decoration: none; }
   .menu footer a::after { content: ""; width: .42em; height: .42em; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; }
-  @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: 36px; } .menu footer a { font-size: 34px; line-height: 1; } }
+  @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: calc(36px + env(safe-area-inset-bottom)); } .menu footer a { font-size: 34px; line-height: 1; } }
   .menu a { font-family: Anton, sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
+  html.menu-open, html.menu-open body { background: var(--pink); } /* iOS Safari's bottom bar area sits outside the fixed panel; keep it pink too */
+  @media (max-width: 800px) { .menu > a { font-size: 9.4vw; white-space: nowrap; } } /* sized so "Artist & Songwriters" stays on one line */
   .menu a:hover { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
   /* the docked header logo, as a cream copy inside the panel: the wipe uncovers it as if it had always been there */
   #mlogo { position: absolute; top: 0; left: 0; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--cream); pointer-events: none; }
@@ -258,13 +260,13 @@
   .inquiry .opt input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
   .inquiry .opt:hover span { transform: scale(1.04) rotate(-1deg); }
   .inquiry .actions { margin-top: 36px; text-align: center; }
-  .inquiry .submit { border: 0; cursor: pointer; font: inherit; font-size: 18px; padding: 14px 36px; }
+  .inquiry .submit { display: block; width: 100%; border: 0; cursor: pointer; font: 400 clamp(26px, 3.4vw, 38px)/1 Anton, sans-serif; text-transform: uppercase; letter-spacing: .02em; padding: 22px 28px; } /* big, loud and full-width */
   .inquiry .submit:disabled { opacity: .55; cursor: wait; transform: none; }
   .inquiry .note { margin-top: 18px; text-align: center; font-size: 15px; font-weight: 600; min-height: 1.5em; }
   .inquiry .note.ok { color: var(--ink); }
   .inquiry .note.err { color: color-mix(in srgb, var(--pink), #000 35%); }
   @media (max-width: 600px) { .inquiry .choices { gap: 8px; } .inquiry .opt span { padding: 9px 14px; font-size: 15px; } }
-  footer { padding: 30px 4vw; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; }
+  footer { padding: 30px 4vw calc(30px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; }
 
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   @media (prefers-reduced-motion: reduce) { .sg .hl, .sg .head { transition: none; } .tile:hover .flags span { animation: none; } #mark .layer:not(:last-child), .glass { display: none; } }
@@ -463,7 +465,7 @@
         </div>
       </fieldset>
       <div class="actions">
-        <button type="submit" class="pill submit">Send</button>
+        <button type="submit" class="pill submit">Let's talk music ✺</button>
         <p class="note" id="inquiry-note" role="status" aria-live="polite"></p>
       </div>
     </form>
@@ -815,7 +817,7 @@
 
   // menu: open/close the full-screen panel; links close it, Esc closes it, page can't scroll behind it
   const menu = document.getElementById("menu"), burger = document.querySelector(".burger");
-  const setMenu = o => { menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); document.documentElement.style.overflow = o ? "hidden" : ""; (o ? menu.querySelector(".x") : burger).focus(); };
+  const setMenu = o => { menu.classList.toggle("open", o); document.documentElement.classList.toggle("menu-open", o); burger.setAttribute("aria-expanded", o); document.documentElement.style.overflow = o ? "hidden" : ""; (o ? menu.querySelector(".x") : burger).focus(); };
   // static copy of the docked lockup (same math as the scroll animation at its end state)
   let mlogo;
   const dockLogo = () => {
@@ -828,7 +830,7 @@
     const sv = mlogo.querySelector("svg"), pb = mlogo.querySelector(".pub");
     const svgH = sv.clientHeight, u = pb.clientWidth / 249.27;
     [...pb.children].forEach(el => el.setAttribute("transform", `translate(107.7 ${-(svgH + parseFloat(getComputedStyle(pb).marginTop)) / u}) scale(${249.27 / 101.95})`));
-    const HW = Math.min(80, (vw * .92 - document.querySelector("nav").offsetWidth - 16) / (356.97 / 101.95)), s = Math.min(HW / bigW, vw * .92 / (bigW * 356.97 / 101.95));
+    const HW = Math.min(80, (vw * .92 - document.querySelector("nav").offsetWidth - 28) / (356.97 / 101.95)), s = Math.min(HW / bigW, vw * .92 / (bigW * 356.97 / 101.95));
     mlogo.style.transform = `translate(${vw * .04}px, ${36 + parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar")) - svgH * s / 2}px) scale(${s})`;
   };
   addEventListener("resize", () => menu.classList.contains("open") && dockLogo());
@@ -848,6 +850,10 @@
     blast = 1; energy += 160;
   });
   const hero = document.querySelector(".hero");
+  // viewport-fit=cover lets the page run under iOS Safari's translucent bars; the top bar then grows by the status-bar inset (0 on desktop)
+  const probe = document.createElement("div"); probe.style.cssText = "position:fixed;padding-top:env(safe-area-inset-top);visibility:hidden"; document.body.append(probe);
+  const safeTop = parseFloat(getComputedStyle(probe).paddingTop) || 0; probe.remove();
+  document.documentElement.style.setProperty("--bar", 34 + safeTop + "px");
   const BAR = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar"));
   // main color comes from CSS --pink; the canvas, browser theme color and favicon follow it
   const PINK = getComputedStyle(document.documentElement).getPropertyValue("--pink").trim();
@@ -864,7 +870,7 @@
       vw, bigW, bigH: mark.offsetHeight, hh: hero.offsetHeight, top: vw <= 800 ? BAR + 72 : 0, // phones: hero is short, logo centers below the header
       svgH, lineW: svgW * 356.97 / 101.95, // natural width of the one-line lockup
       // docked WAYU width: up to 80px, smaller if the full lockup would run into the nav
-      HEADER_W: Math.min(80, (vw * .92 - nav.offsetWidth - 16) / (356.97 / 101.95)),
+      HEADER_W: Math.min(80, (vw * .92 - nav.offsetWidth - 28) / (356.97 / 101.95)),
       dyEnd: -(svgH + parseFloat(getComputedStyle(pub).marginTop)) / (pub.clientWidth / 249.27), // SVGs have no offsetTop
     };
   };
