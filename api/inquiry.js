@@ -14,13 +14,19 @@ const esc = (s) =>
 const row = (label, value) =>
   `<tr><td style="padding:8px 12px;border:1px solid #eee;font-weight:600;vertical-align:top">${esc(label)}</td><td style="padding:8px 12px;border:1px solid #eee">${esc(value)}</td></tr>`;
 
+const env = (name, fallback = "") => {
+  const raw = process.env[name];
+  if (raw == null || raw === "") return fallback;
+  return String(raw).trim().replace(/^["']|["']$/g, "");
+};
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const key = process.env.RESEND_API_KEY;
+  const key = env("RESEND_API_KEY");
   if (!key) {
     return res.status(500).json({ error: "Email is not configured" });
   }
@@ -53,8 +59,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid answer" });
   }
 
-  const from = process.env.RESEND_FROM || "WAYU Publishing <hello@wayupublishing.com>";
-  const to = process.env.INQUIRY_TO || "hello@wayupublishing.com";
+  const from = env("RESEND_FROM", "WAYU Publishing <hello@wayupublishing.com>");
+  const to = env("INQUIRY_TO", "hello@wayupublishing.com");
 
   const html = `
     <p>New inquiry from the WAYU Publishing site.</p>
