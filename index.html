@@ -47,8 +47,10 @@
   /* menu: three-line button opens a full-screen solid pink panel of section links */
   .burger { width: 44px; height: 44px; margin: 0 -8px 0 -4px; /* icon lines up with the page margin; tighter to the button */ display: grid; place-content: center; gap: 6px; background: none; border: 0; cursor: pointer; color: var(--pink); }
   .burger i { display: block; width: 28px; height: 3px; border-radius: 3px; background: currentColor; }
-  .menu { position: fixed; inset: 0; z-index: 30; background: var(--pink); color: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 0 4vw; clip-path: inset(0 0 100% 0); will-change: clip-path; visibility: hidden; transition: clip-path .5s cubic-bezier(.7,0,.2,1), visibility 0s .5s; }
-  .menu.open { clip-path: inset(0); visibility: visible; transition: clip-path .5s cubic-bezier(.7,0,.2,1); }
+  .menu { touch-action: none; overscroll-behavior: contain; position: absolute; inset: 0 0 auto; height: 100svh; z-index: 30; background: transparent; color: var(--cream); display: none; flex-direction: column; justify-content: center; padding: 0 4vw; clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .5s cubic-bezier(.7,0,.2,1), visibility 0s .5s; }
+  .menu::before { content: ""; position: absolute; left: 0; right: 0; top: 0; bottom: -200px; background: var(--pink); z-index: -1; } /* pink runs past the bottom edge, so it still reaches under Safari's bar when the viewport is short */
+  .menu.show { display: flex; }
+  .menu.open { clip-path: inset(0 0 -200px 0); visibility: visible; transition: clip-path .5s cubic-bezier(.7,0,.2,1); }
   .menu footer { position: absolute; inset: auto 0 0; justify-content: flex-start; align-items: baseline; gap: 6px 36px; padding: 26px 4vw 30px; font-size: 15px; font-weight: 600; }
   .menu .fwave { position: absolute; left: 0; top: -36px; width: 100%; height: 72px; pointer-events: none; } /* the footer rule: same wave line as the hero, in cream */
   .menu footer span { letter-spacing: .12em; text-transform: uppercase; }
@@ -817,7 +819,13 @@
 
   // menu: open/close the full-screen panel; links close it, Esc closes it, page can't scroll behind it
   const menu = document.getElementById("menu"), burger = document.querySelector(".burger");
-  const setMenu = o => { menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); document.documentElement.style.overflow = o ? "hidden" : ""; (o ? menu.querySelector(".x") : burger).focus({ preventScroll: true }); };
+  let hideT;
+  const setMenu = o => {
+    clearTimeout(hideT);
+    if (o) { menu.classList.add("show"); void menu.offsetWidth; } else hideT = setTimeout(() => menu.classList.remove("show"), 600); // after the wipe-up finishes
+    if (o) menu.style.top = scrollY + "px"; // absolute, not fixed: iOS Safari keeps a fixed pink panel as its bottom-bar colour after it closes
+    menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); (o ? menu.querySelector(".x") : burger).focus({ preventScroll: true });
+  };
   // static copy of the docked lockup (same math as the scroll animation at its end state)
   let mlogo;
   const dockLogo = () => {
@@ -834,7 +842,10 @@
     mlogo.style.transform = `translate(${vw * .04}px, ${36 + parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar")) - svgH * s / 2}px) scale(${s})`;
   };
   addEventListener("resize", () => menu.classList.contains("open") && dockLogo());
-  burger.addEventListener("click", () => { dockLogo(); setMenu(true); });
+  // no scroll lock on <html> (flipping its overflow made iOS Safari re-lay out its bars): the full-screen panel just swallows touch and wheel so the page behind stays put
+  for (const ev of ["touchmove", "wheel"]) menu.addEventListener(ev, e => e.preventDefault(), { passive: false });
+  addEventListener("scroll", () => menu.classList.contains("open") && (menu.style.top = scrollY + "px"), { passive: true });
+  burger.addEventListener("click", () => { menu.classList.add("show"); dockLogo(); setMenu(true); }); // shown first so the logo copy can be measured
   menu.querySelector(".x").addEventListener("click", () => setMenu(false));
   menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
   addEventListener("keydown", e => { if (e.key === "Escape" && menu.classList.contains("open")) setMenu(false); });
