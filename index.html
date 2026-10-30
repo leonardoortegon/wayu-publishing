@@ -25,6 +25,7 @@
 </script>
 <script>
   // reload / back mid-page: we restore the scroll ourselves once the content exists, with the page hidden until then, so the hero and its intro never show
+  document.documentElement.classList.add("js"); // the intro only hides the logo when a script is here to reveal it
   history.scrollRestoration = "manual";
   let savedY = 0;
   try {
@@ -38,7 +39,8 @@
 <style>
   :root { --bar: 34px; --pink: #ff2e88; /* MAIN COLOR: change only this; every other pink is mixed from it (#c8005a passes WCAG AA text contrast) */ --cream: #fdf7f0; --ink: #1a1016; }
   * { box-sizing: border-box; margin: 0; }
-  html { scroll-behavior: smooth; overflow-x: clip; }
+  html { overflow-x: clip; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
   body { background: var(--cream); color: var(--pink); font: 18px/1.5 Inter, "Inter Fallback", system-ui, sans-serif; overflow-x: hidden; }
   html.restoring body { visibility: hidden; }
   a { color: inherit; }
@@ -77,7 +79,7 @@
   .menu footer a::after { content: ""; width: .42em; height: .42em; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; }
   @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: calc(36px + env(safe-area-inset-bottom)); } .menu footer a { font-size: 34px; line-height: 1; } }
   .menu a { font-family: Anton, "Anton Fallback", sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
-  @media (max-width: 800px) { .menu > a { font-size: 9.4vw; white-space: nowrap; } } /* sized so "Artist & Songwriters" stays on one line */
+  @media (max-width: 800px) { .menu > a { font-size: 9.4vw; white-space: nowrap; } } /* sized so "Artists & Songwriters" stays on one line */
   .menu a:hover { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
   /* the docked header logo, as a cream copy inside the panel: the wipe uncovers it as if it had always been there */
   #mlogo { position: absolute; top: 0; left: 0; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--cream); pointer-events: none; }
@@ -94,13 +96,33 @@
   @media (prefers-reduced-motion: reduce) { .menu, .menu.open { transition: none; } .menu .x::before, .menu .x::after { transition: none; transform: rotate(45deg) scaleX(1); } .menu .x::after { transform: rotate(-45deg) scaleX(1); } }
 
   /* Mark: big echoing logo in the hero that shrinks into the header logo on scroll (JS drives the transform) */
-  #mark { position: fixed; top: 0; left: 0; z-index: 11; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--pink); text-decoration: none; }
+  #mark { position: fixed; top: 44px; left: 4vw; width: 120px; z-index: 11; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--pink); text-decoration: none; }
   #mark .layer { grid-area: 1/1; will-change: transform; transform-origin: 50% 50%; }
   /* intro: the wave line draws out from the centre, then the logo rises out of it (wipe from the bottom up); the script adds .in, then .done once it has finished */
-  #mark { opacity: 0; clip-path: inset(100% -25% -25% -25%); transition: opacity .5s ease, clip-path .9s cubic-bezier(.2,.7,.2,1); }
-  #mark.in { opacity: 1; clip-path: inset(-25%); }
-  #mark.done { clip-path: none; transition: none; } /* the echo trails must never be clipped */
-  @media (prefers-reduced-motion: reduce) { #mark { opacity: 1; clip-path: none; transition: none; } }
+  .js #mark { top: 0; left: 0; opacity: 0; clip-path: inset(100% -25% -25% -25%); transition: opacity .5s ease, clip-path .9s cubic-bezier(.2,.7,.2,1); }
+  .js #mark.in { opacity: 1; clip-path: inset(-25%); }
+  .js #mark.done { clip-path: none; transition: none; } /* the echo trails must never be clipped */
+  @media (prefers-reduced-motion: reduce) { .js #mark { opacity: 1; clip-path: none; transition: none; } }
+  /* no JavaScript: nothing docks the logo, so it starts as the header lockup, on a solid header with a compact hero */
+  html:not(.js) { --w: 80px; }
+  @media (max-width: 600px) { html:not(.js) { --w: 50px; } }
+  html:not(.js) header { background: var(--cream); }
+  html:not(.js) .burger { display: none; } /* the menu needs the script to open */
+  html:not(.js) #mark { z-index: 13; --e: 1; top: calc(var(--bar) + 36px - var(--w) * .1424); width: calc(var(--w) * 3.51); }
+  html:not(.js) #mark .layer { display: flex; align-items: flex-start; gap: calc(var(--w) * .056); }
+  html:not(.js) #mark svg { flex: none; width: var(--w); }
+  html:not(.js) #mark .pub { width: calc(var(--w) * 2.445); margin: 0; }
+  .hero-static { display: none; }
+  html:not(.js) .hero { padding: calc(var(--bar) + 72px) 4vw 20vh; }
+  @media (max-width: 800px) { html:not(.js) .hero { padding-bottom: 70px; } }
+  html:not(.js) .hero-static { display: block; width: min(80vw, 1000px, (76vh - 120px) * 2.3); /* the logo is .43 as tall as wide: short windows size it by height, so it stays above the line */ color: var(--pink); }
+  @media (max-width: 800px) { html:not(.js) .hero-static { width: 62vw; } }
+  .hero-static svg { display: block; width: 100%; fill: currentColor; }
+  .hero-static svg + svg { margin-top: 3%; }
+  .wave-static { display: none; }
+  html:not(.js) .wave-static { display: block; position: absolute; left: 0; top: 82%; width: 100%; height: 60px; overflow: visible; fill: none; stroke: var(--pink); stroke-width: 1.5; }
+  @media (max-width: 800px) { html:not(.js) .wave-static { top: 88%; } }
+  .wave-static path { vector-effect: non-scaling-stroke; }
   #mark { cursor: default; -webkit-tap-highlight-color: transparent; }
   #mark svg { display: block; width: 100%; fill: currentColor; }
   #mark .layer > svg:first-child { position: relative; z-index: 1; } /* WAYU always paints over PUBLISHING while the letters travel */
@@ -112,7 +134,7 @@
   #mark .layer:not(:last-child) svg { fill: none; stroke: currentColor; stroke-width: .35; }
   .hero { height: 100vh; position: relative; display: grid; place-items: center; }
   /* phones: compact hero so the values section and marquee start in the first screen */
-  @media (max-width: 800px) { .hero { height: 40svh; min-height: 330px; margin-bottom: 80px; } .hero small { display: none; } .about > p { font-size: 20px; } section.about { padding-block: 32px; } .about h2 { margin-bottom: 3vh; } }
+  @media (max-width: 800px) { .hero { height: 40svh; min-height: 330px; margin-bottom: 80px; } .hero small { display: none; } section.about { padding-block: 32px; } .about h2 { margin-bottom: 3vh; } }
   .hero small { position: absolute; bottom: 5vh; font-weight: 600; letter-spacing: .2em; }
 
   section { padding: 14vh 4vw; }
@@ -136,6 +158,7 @@
   @media (max-width: 800px) { .story { grid-template-columns: 1fr; } }
   .about { background: var(--pink); color: var(--cream); }
   .about > p { font-size: clamp(24px, 3.4vw, 48px); line-height: 1.2; max-width: 28ch; font-weight: 600; }
+  @media (max-width: 800px) { .about > p { font-size: 20px; } }
   /* the four values: numbered pledges under the headline that promises them */
   .values { list-style: none; padding: 0; margin-top: 10vh; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3vw; counter-reset: v; }
   .values li { border-top: 3px solid var(--cream); padding-top: 18px; counter-increment: v; }
@@ -182,6 +205,19 @@
   .fall.arm { opacity: 0; translate: 0 28px; transition: opacity .5s, translate .5s, transform .3s, background .3s; }
   .fall.arm.in { opacity: 1; translate: 0 0; }
   @media (min-width: 801px) { .funnel-src, .funnel-gap { margin-bottom: 130px; } }
+  /* no JavaScript: the scroll-drawn arrows can't be measured, so a static svg (desktop) or a CSS rail (phones) stands in */
+  .funnel-static { display: none; }
+  html:not(.js) .fall { overflow: visible; }
+  @media (min-width: 801px) {
+    html:not(.js) .funnel-src, html:not(.js) .funnel-gap { margin-bottom: 0; }
+    html:not(.js) .funnel-static { display: block; grid-column: span 12; width: 100%; height: 110px; overflow: visible; }
+    .funnel-static path { fill: none; stroke: var(--pink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  }
+  @media (max-width: 800px) {
+    html:not(.js) .fall::before { content: ""; position: absolute; left: -24px; top: -16px; bottom: 50%; width: 20px; border-left: 3px solid var(--pink); border-bottom: 3px solid var(--pink); border-bottom-left-radius: 12px; }
+    html:not(.js) .fall ~ .fall::before { top: -70%; } /* reaches back over the previous card's rail, so the line reads as one */
+    html:not(.js) .fall::after { content: ""; position: absolute; left: -15px; top: calc(50% - 7px); width: 12px; height: 12px; border-top: 3px solid var(--pink); border-right: 3px solid var(--pink); rotate: 45deg; }
+  }
   .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
   .tile { position: relative; overflow: hidden; grid-column: span 4; border: 2px dashed var(--pink); border-radius: 6px; padding: clamp(20px, 3vw, 36px); transition: transform .3s, background .3s; }
   .tile:hover { background-color: #fff; } /* lights up, never moves */
@@ -226,6 +262,7 @@
   .sg .head { position: relative; z-index: 1; padding: clamp(22px, 2.4vw, 34px); border: 0; border-radius: 0; background: transparent; transition: color .4s; }
   .sg .head:hover { background-color: transparent; }
   .sg .col.on .head { color: var(--cream); }
+  html:not(.js) .sg .col .head { background: var(--pink); color: var(--cream); } /* no JavaScript, no sliding slab: every head is solid, or the cream text would vanish */
   .sg .card.arm { opacity: 0; translate: 0 28px; transition: opacity .5s, translate .5s, background .3s; }
   .sg .card.arm.in { opacity: 1; translate: 0 0; }
   @media (max-width: 800px) { .sg .card.arm { translate: -28px 0; } .sg .card.arm.in { translate: 0 0; } } /* phones: cards slide in from the left, like the column is feeding them in */
@@ -301,13 +338,13 @@
 <a id="mark" href="#top" aria-label="WAYU Publishing home">
   <span class="layer">
     <!-- Logo paths from "WAYU RECORDS.svg": WAYU and PUBLISHING share the same 0–29 y-range. Echo layers are cloned from this by the script. -->
-    <svg viewBox="0 0 101.95 29.04" aria-hidden="true">
+    <svg viewBox="0 0 101.95 29.04" aria-hidden="true"><g id="logo-wayu">
       <polyline points="64.7 10.64 69.63 .52 76.07 .55 67.93 16.95 73.7 28.61 67.29 28.61 67.29 28.61 53.33 .52 53.33 .52 59.03 .52 59.81 .54 73.7 28.61"/>
       <path d="M101.95,17.91c0,5.9-4.86,10.66-10.81,10.66s-10.81-4.76-10.84-10.62V.53h5.58v17.38c0,1.38.56,2.67,1.55,3.66,1,.98,2.31,1.49,3.71,1.49s2.67-.51,3.67-1.49c1-.98,1.47-2.21,1.51-3.58v-.03s0-17.42,0-17.42h5.58l.04,17.37h0Z"/>
       <polygon points="45.91 13.4 50.16 21.69 41.78 21.69 45.91 13.4 45.91 .53 32.03 28.56 59.78 28.56 45.91 .53 45.91 13.4"/>
       <path d="M0,.5l13.9,28.08,5.45-11,5.25,11L38.47.55,0,.5ZM14.06,15.13l-4-7.56h4.04l1.83,3.78-1.88,3.78ZM24.53,15.06l-4-7.56h-.38,8.12l-3.75,7.56Z"/>
-    </svg>
-    <svg class="pub" viewBox="107.7 0 249.27 29.04" aria-hidden="true">
+    </g></svg>
+    <svg class="pub" viewBox="107.7 0 249.27 29.04" aria-hidden="true"><g id="logo-pub">
       <path d="M107.7.48h11.07c6.58,0,10.67,3.73,10.67,9.39v.08c0,6.26-5.01,9.59-11.23,9.59h-5.58v9.03h-4.93V.48ZM118.37,15.08c3.73,0,6.06-2.09,6.06-5.01v-.08c0-3.33-2.37-5.01-6.06-5.01h-5.74v10.11h5.74Z"/>
       <path d="M134.06,16.65V.48h4.93v15.97c0,5.25,2.65,7.98,7.1,7.98s7.06-2.61,7.06-7.78V.48h4.93v15.93c0,8.38-4.73,12.6-12.08,12.6s-11.95-4.21-11.95-12.36Z"/>
       <path d="M164.87.48h12.6c3.25,0,5.7.84,7.34,2.49,1.24,1.24,1.89,2.81,1.89,4.65v.08c0,3.41-1.93,5.17-4.01,6.26,3.33,1.16,5.58,2.97,5.58,6.82v.08c0,5.01-4.13,7.7-10.39,7.7h-13V.48ZM181.76,8.42c0-2.25-1.72-3.57-4.93-3.57h-7.1v7.46h6.74c3.21,0,5.29-1.24,5.29-3.81v-.08ZM183.33,20.26c0-2.41-1.89-3.77-5.78-3.77h-7.82v7.7h8.18c3.37,0,5.42-1.28,5.42-3.85v-.08Z"/>
@@ -318,7 +355,7 @@
       <path d="M287.81.48h4.93v28.08h-4.93V.48Z"/>
       <path d="M300.24.48h4.57l15.04,19.42V.48h4.85v28.08h-4.13l-15.49-19.98v19.98h-4.85V.48Z"/>
       <path d="M330.69,14.6v-.08c0-7.86,5.98-14.52,14.48-14.52,4.85,0,7.9,1.36,10.79,3.81l-3.13,3.73c-2.17-1.85-4.33-2.97-7.86-2.97-5.13,0-9.11,4.49-9.11,9.87v.08c0,5.78,3.81,10.03,9.55,10.03,2.69,0,5.05-.84,6.78-2.13v-5.21h-7.18v-4.33h11.95v11.79c-2.81,2.37-6.74,4.37-11.71,4.37-8.79,0-14.56-6.26-14.56-14.44Z"/>
-    </svg>
+    </g></svg>
   </span>
 </a>
 
@@ -332,10 +369,10 @@
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
   </nav>
 </header>
-<div class="menu" id="menu" aria-label="Menu">
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
   <button class="x" aria-label="Close menu"></button>
   <a href="#story">About us</a>
-  <a href="#writers">Artist & Songwriters</a>
+  <a href="#writers">Artists &amp; Songwriters</a>
   <a href="#contact">Contact us</a>
   <footer><canvas class="fwave" aria-hidden="true"></canvas><span>WAYU Family:</span><a href="https://wayurecords.com">WAYU Records</a><a href="https://label.tools">LabelTools</a></footer>
 </div>
@@ -343,6 +380,8 @@
 <main id="top">
   <section class="hero" aria-label="WAYU Publishing">
     <canvas id="waves" aria-hidden="true"></canvas>
+    <div class="hero-static" aria-hidden="true"><svg viewBox="0 0 101.95 29.04"><use href="#logo-wayu"/></svg><svg viewBox="107.7 0 249.27 29.04"><use href="#logo-pub"/></svg></div>
+    <svg class="wave-static" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30C150 4 250 56 400 30S650 4 800 30S1050 56 1200 30" opacity="1"/><path d="M0 26C150 0 250 52 400 26S650 0 800 26S1050 52 1200 26" opacity="0.7"/><path d="M0 34C150 8 250 60 400 34S650 8 800 34S1050 60 1200 34" opacity="0.5"/></svg>
     <h1 class="sr-only">WAYU Publishing - independent music publishing</h1>
     <small>INDEPENDENT MUSIC PUBLISHING</small>
   </section>
@@ -352,8 +391,8 @@
     <p>We help independent artists and songwriters collect their royalties, protect their rights, and make the most of their music.</p>
     <ol class="values">
       <li><h3>Transparency</h3><p>Honest reporting. No surprises. Trust is built through clarity, and that's non-negotiable.</p></li>
-      <li><h3>Fairness</h3><p> Fair deals and respectful publishing support.</p></li>
-      <li><h3>Collaboration</h3><p>A growing community of creators who support each other, share what they know, and believe there's room for everyone to succeed..</p></li>
+      <li><h3>Fairness</h3><p>Fair deals and respectful publishing support.</p></li>
+      <li><h3>Collaboration</h3><p>A growing community of creators who support each other, share what they know, and believe there's room for everyone to succeed.</p></li>
       <li><h3>Education</h3><p>The tools and know-how to understand how your music earns, and how to protect it.</p></li>
     </ol>
   </section>
@@ -377,6 +416,7 @@
       </div>
 
 
+      <svg class="funnel-static" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><path d="M75 0C75 60 50 40 50 97M46 86L50 98L54 86"/><path d="M75 0C75 60 150 40 150 97M146 86L150 98L154 86"/><path d="M75 0C75 60 250 40 250 97M246 86L250 98L254 86"/></svg>
       <div class="tile fall" style="--tilt:-2deg">
         <span class="badge diamond" aria-hidden="true">M</span>
         <h3>Mechanical</h3>
@@ -419,7 +459,7 @@
 
   <section class="writers" id="writers">
     <h2 class="display">Artists & Songwriters</h2>
-    <div class="grid" id="grid"></div>
+    <div class="grid" id="grid"><noscript><p>Adrian Schneider, Alex Galvan, Kalaman, Alvaro Suarez, Yaku means water, To Ricciardi, Predex, AntahKarana, Ben &amp; Vincent, Cristian Monak, Ampermut, Guuse, Andec James, G.Zamora, Juanma Salinas, MIICHII, MoM, Magupi, Giovanny Aparicio, Elif, Dr Parnassus, Liminal MX, UNDERS</p></noscript></div>
   </section>
 
   <section class="support" id="support">
@@ -496,7 +536,7 @@
 </main>
 
 <footer>
-  <span>© <span id="year"></span> WAYU Publishing</span>
+  <span>© <span id="year">2026</span> WAYU Publishing</span>
 </footer>
 
 <script type="application/json" id="songwriters">
@@ -832,7 +872,7 @@
   const mark = document.getElementById("mark");
   const base = mark.querySelector(".layer");
   const pub = base.querySelector(".pub"), svg = base.querySelector("svg");
-  const lefts = [...pub.children].map(el => el.getBBox().x); // each letter's left edge, in logo units
+  const lefts = [...pub.firstElementChild.children].map(el => el.getBBox().x); // each letter's left edge, in logo units
   const N = matchMedia("(pointer: coarse)").matches ? 2 : 6; // touch screens have no pointer to trail, so only the tap-blast uses echoes: fewer copies, far less to redraw
   const layers = [];
   for (let i = N; i > 0; i--) {
@@ -856,6 +896,7 @@
     clearTimeout(hideT);
     if (o) { menu.classList.add("show"); void menu.offsetWidth; } else hideT = setTimeout(() => menu.classList.remove("show"), 600); // after the wipe-up finishes
     if (o) menu.style.top = scrollY + "px"; // absolute, not fixed: iOS Safari keeps a fixed pink panel as its bottom-bar colour after it closes
+    for (const el of document.body.children) if (el !== menu) el.inert = o; // keyboard focus stays in the open menu
     menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); (o ? menu.querySelector(".x") : burger).focus({ preventScroll: true });
   };
   // static copy of the docked lockup (same math as the scroll animation at its end state)
@@ -869,20 +910,20 @@
     mlogo.style.width = bigW + "px";
     const sv = mlogo.querySelector("svg"), pb = mlogo.querySelector(".pub");
     const svgH = sv.clientHeight, u = pb.clientWidth / 249.27;
-    [...pb.children].forEach(el => el.setAttribute("transform", `translate(107.7 ${-(svgH + parseFloat(getComputedStyle(pb).marginTop)) / u}) scale(${249.27 / 101.95})`));
+    [...pb.firstElementChild.children].forEach(el => el.setAttribute("transform", `translate(107.7 ${-(svgH + parseFloat(getComputedStyle(pb).marginTop)) / u}) scale(${249.27 / 101.95})`));
     const HW = Math.min(80, (vw * .92 - document.querySelector("nav").offsetWidth - 28) / (356.97 / 101.95)), s = Math.min(HW / bigW, vw * .92 / (bigW * 356.97 / 101.95));
     mlogo.style.transform = `translate(${vw * .04}px, ${36 + parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar")) - svgH * s / 2}px) scale(${s})`;
   };
   addEventListener("resize", () => menu.classList.contains("open") && dockLogo());
   // no scroll lock on <html> (flipping its overflow made iOS Safari re-lay out its bars): the full-screen panel just swallows touch and wheel so the page behind stays put
   for (const ev of ["touchmove", "wheel"]) menu.addEventListener(ev, e => e.preventDefault(), { passive: false });
-  addEventListener("scroll", () => menu.classList.contains("open") && (menu.style.top = scrollY + "px"), { passive: true });
+  addEventListener("scroll", () => menu.classList.contains("show") && (menu.style.top = scrollY + "px"), { passive: true });
   burger.addEventListener("click", () => { menu.classList.add("show"); dockLogo(); setMenu(true); }); // shown first so the logo copy can be measured
   menu.querySelector(".x").addEventListener("click", () => setMenu(false));
   menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
   addEventListener("keydown", e => { if (e.key === "Escape" && menu.classList.contains("open")) setMenu(false); });
   const nav = document.querySelector("nav");
-  const letters = lefts.map((_, i) => [...mark.querySelectorAll(`.pub > :nth-child(${i + 1})`)]);
+  const letters = lefts.map((_, i) => [...mark.querySelectorAll(`.pub > g > :nth-child(${i + 1})`)]);
   const lerp = (a, b, p) => a + (b - a) * p;
   const waves = document.getElementById("waves"), wctx = waves.getContext("2d");
   let energy = 0, lastY = scrollY, lastMx = 0, blast = 0, introStart = null; // introStart: when the line begins drawing out
@@ -975,7 +1016,7 @@
       wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       wctx.clearRect(0, 0, W, H); wctx.globalAlpha = 1;
       const amp = lerp(10 + Math.min(energy, 90), 1 + Math.min(energy, 30) * .15, e), baseY = lerp(hh * (vw <= 800 ? .92 : .82), 72 + barNow, e), cx = (moved ? mx + .5 : .5) * W;
-      const ip = introStart === null ? 0 : Math.min(1, (performance.now() - introStart) / 650), ie = 1 - (1 - ip) ** 3; // 0 -> 1, eased
+      const ip = introStart === null ? +calm : Math.min(1, (performance.now() - introStart) / 650), ie = 1 - (1 - ip) ** 3; // 0 -> 1, eased
       const stp = vw <= 800 ? 10 : 6; // fewer points per line on phones
       // the scribble: the same lines curled into a small spiral on the line's own spot that spins and draws itself while the page loads (ie = 0), unrolling into the real wave (ie = 1)
       const drawN = introStart === null ? Math.min(1, performance.now() / 400) : 1, spin = performance.now() * .003 * (1 - ie), R = vw <= 800 ? 11 : 15, T = W + 6; // small and quiet, sitting on the line's own spot
@@ -1003,7 +1044,8 @@
     // menu footer rule: the hero's wave line again, in cream, swelling with the mouse
     if (menu.classList.contains("open")) {
       const fw = menu.querySelector(".fwave"), fc = fw.getContext("2d"), FW = fw.clientWidth, FH = fw.clientHeight;
-      if (fw.width !== FW * dpr) { fw.width = FW * dpr; fw.height = FH * dpr; }
+      const fcw = Math.round(FW * dpr), fch = Math.round(FH * dpr);
+      if (fw.width !== fcw || fw.height !== fch) { fw.width = fcw; fw.height = fch; }
       fc.setTransform(dpr, 0, 0, dpr, 0, 0); fc.clearRect(0, 0, FW, FH);
       const famp = 2 + Math.min(energy, 90) * .3, fcx = (moved ? mx + .5 : .5) * FW;
       for (let k = 0; k < 5; k++) {
@@ -1024,7 +1066,7 @@
       if (l.t !== lt) { l.t = lt; l.el.style.transform = lt; }
       if (l.o !== lo) { l.o = lo; l.el.style.opacity = lo; }
     }
-    loop.hero = idle() ? 0 : requestAnimationFrame(tick);
+    loop.hero = idle() && introStart !== null ? 0 : requestAnimationFrame(tick); // keeps going while a slow page loads, so the scribble never freezes
   };
   // the logo appears once the page has loaded (4s cap in case load never fires); a mid-page reload skips all this, see savedY
   // always plays, quietly: while the page loads a small scribble spins where the wave line will be (nothing else is hidden); once ready it
