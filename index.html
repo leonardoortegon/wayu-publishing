@@ -171,11 +171,10 @@
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 32px; overflow: clip; } /* keeps spill inside the writers area */
   /* shapes overflow their card and run across neighbors; white lines vanish on the cream gaps */
   .writer { position: relative; display: block; aspect-ratio: 4/5; background: var(--pink); color: var(--cream); text-decoration: none; border-radius: 6px; }
-  .writer .in { height: 100%; display: flex; flex-direction: column; align-items: center; gap: 4%; padding: 6% 7%; container-type: inline-size; }
+  .writer .in { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 4%; padding: 6% 7%; container-type: inline-size; }
   .writer h3 { font: 400 15cqw/.85 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; text-align: center; letter-spacing: -.01em; height: 26cqw; display: flex; align-items: center; justify-content: center; } /* room for two lines, so the photo box sits at the same height on every card */
   .writer h3.long { font-size: 11cqw; }
   /* the photo fills the whole card (behind the name and tagline); it's tinted from the start, so nothing jumps while photos arrive */
-  .writer .in { position: relative; }
   .writer .in > h3, .writer .in > p { position: relative; z-index: 1; }
   .writer .img { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; background: color-mix(in srgb, var(--pink), #000 14%); }
   .writer .img:has(img)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--pink), transparent 32%, transparent 62%, var(--pink)); opacity: .8; } /* pink fade top and bottom keeps the text readable */
@@ -223,7 +222,7 @@
   .tile:hover { background-color: #fff; } /* lights up, never moves */
   .tile h3 { font: 400 clamp(30px, 3.4vw, 52px)/.9 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; margin: 16px 0 10px; }
   .w6 { grid-column: span 6; }
-  .sticker { position: absolute; top: -14px; right: 18px; background: var(--cream); color: var(--pink); border: 2px solid var(--pink); font: 400 18px/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; rotate: 4deg; } .w12 { grid-column: span 12; }
+  .sticker { position: absolute; top: -14px; right: 18px; background: var(--cream); color: var(--pink); border: 2px solid var(--pink); font: 400 18px/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; rotate: 4deg; }
   .tile .who { font-weight: 600; margin-bottom: 10px; }
   .tile:has(.sticker) { overflow: visible; z-index: 1; } /* tag pokes above the tile edge */
   /* geometric badges (instead of emoji) */
@@ -255,7 +254,7 @@
   .sg .col { display: flex; flex-direction: column; gap: 14px; padding-bottom: 14px; border: 2px solid var(--pink); border-radius: 6px; overflow: hidden; }
   .sg .col > .card { margin-inline: 14px; }
   .sg { position: relative; }
-  /* the solid pink slab slides between the three heads: by scroll, or to whichever column the pointer is over (JS sets its position and the .on column from the scroll) */
+  /* the solid pink slab slides between the three heads: by scroll (JS sets its position and the .on column) */
   .sg .hl { position: absolute; left: 0; top: 0; background: var(--pink); border-radius: 6px 6px 0 0; pointer-events: none; transition: transform .55s cubic-bezier(.65, 0, .35, 1), width .55s cubic-bezier(.65, 0, .35, 1), height .55s cubic-bezier(.65, 0, .35, 1); }
   .sg .hl.hop { opacity: 0; }
   @media (max-width: 800px) { .sg .hl { transition: opacity .22s; } }
@@ -273,7 +272,7 @@
   .sg .card { display: grid; grid-template-columns: 44px 1fr; gap: 0 16px; align-content: start; padding: clamp(18px, 2vw, 26px); }
   .sg .card .sticker { top: -12px; right: 14px; font-size: 14px; padding: 4px 9px; } /* value tag: which of the four values this service keeps */
   .sg .card .ic { grid-row: 1 / span 4; width: 44px; height: 44px; display: grid; place-items: center; }
-  .sg .card .ic img, .sg .card .ic svg { max-width: 100%; max-height: 100%; width: auto; height: 100%; }
+  .sg .card .ic svg { max-width: 100%; max-height: 100%; width: auto; height: 100%; }
   .sg .card .ic b { font: 400 34px/1 Anton, "Anton Fallback", sans-serif; }
   .sg h4 { font: 400 clamp(22px, 1.9vw, 28px)/.95 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; margin: 2px 0 8px; }
   .sg .card p { font-size: 15px; line-height: 1.45; }
@@ -403,13 +402,13 @@
     <h2 class="display">A song has<br>two halves.</h2>
     <p class="lede">One song, two separate copyrights, and different ways to get paid. Understanding the difference is the first step to knowing what you're owed.</p>
     <div class="bento">
-      <div class="tile w6 solid funnel-src" style="--tilt:-1.5deg">
+      <div class="tile w6 solid funnel-src">
         <span class="sticker">That's us</span>
         <h3>The composition</h3>
         <p class="who">Melody + lyrics · Songwriters &amp; publishers</p>
         <p>Earns mechanical royalties every time it's streamed or downloaded, performance royalties when it's played in public, and sync fees when it's paired with picture.</p>
       </div>
-      <div class="tile w6 funnel-gap" style="--tilt:1.5deg">
+      <div class="tile w6 funnel-gap">
         <h3>The sound recording</h3>
         <p class="who">The master · Artist or label</p>
         <p>The actual recorded version of the song. Earns from streams, downloads, physical sales, neighboring rights and sync of that specific recording.</p>
@@ -417,19 +416,19 @@
 
 
       <svg class="funnel-static" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true"><path d="M75 0C75 60 50 40 50 97M46 86L50 98L54 86"/><path d="M75 0C75 60 150 40 150 97M146 86L150 98L154 86"/><path d="M75 0C75 60 250 40 250 97M246 86L250 98L254 86"/></svg>
-      <div class="tile fall" style="--tilt:-2deg">
+      <div class="tile fall">
         <span class="badge diamond" aria-hidden="true">M</span>
         <h3>Mechanical</h3>
         <p>Earn royalties when your music is streamed on demand, downloaded, or reproduced on physical formats like vinyl and CDs.</p>
         <div class="flags"><span>Spotify</span><span>YouTube Music</span><span>Apple</span><span>Beatport</span><span>Vinyl</span><span>More...</span></div>
       </div>
-      <div class="tile fall" style="--tilt:1deg">
+      <div class="tile fall">
         <span class="badge shield" aria-hidden="true">P</span>
         <h3>Performance</h3>
         <p>Earn royalties when your music is streamed, broadcast, or played in public, from Spotify and radio to live shows, clubs, restaurants, and shops.</p>
         <div class="flags"><span>Radio</span><span>TV</span><span>Live</span><span>Clubs</span><span>Restaurants</span><span>Shops</span><span>More...</span></div>
       </div>
-      <div class="tile fall" style="--tilt:-1deg">
+      <div class="tile fall">
         <span class="badge hex" aria-hidden="true">S</span>
         <h3>Sync</h3>
         <p>Earn money when your music is licensed for use in films, TV shows, advertisements, or video games.</p>
@@ -899,6 +898,8 @@
     for (const el of document.body.children) if (el !== menu) el.inert = o; // keyboard focus stays in the open menu
     menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); (o ? menu.querySelector(".x") : burger).focus({ preventScroll: true });
   };
+  // hero logo width: on desktop short windows size it by height (it is .43 as tall as wide), so it stays above the line
+  const logoW = vw => vw <= 800 ? Math.min(vw * .62, 1000) : Math.max(200, Math.min(vw * .8, 1000, (innerHeight * .76 - 120) * 2.3));
   // static copy of the docked lockup (same math as the scroll animation at its end state)
   let mlogo;
   const dockLogo = () => {
@@ -906,7 +907,7 @@
       mlogo = document.createElement("div"); mlogo.id = "mlogo"; mlogo.setAttribute("aria-hidden", "true");
       mlogo.append(document.querySelector("#mark > .layer:last-child").cloneNode(true)); menu.prepend(mlogo);
     }
-    const vw = innerWidth, bigW = Math.min(vw * (vw <= 800 ? .62 : .8), 1000);
+    const vw = innerWidth, bigW = logoW(vw);
     mlogo.style.width = bigW + "px";
     const sv = mlogo.querySelector("svg"), pb = mlogo.querySelector(".pub");
     const svgH = sv.clientHeight, u = pb.clientWidth / 249.27;
@@ -951,7 +952,7 @@
   const PUB_S = 249.27 / 101.95; // WAYU px-per-unit ÷ PUBLISHING px-per-unit in the hero
   const measure = () => {
     const vw = innerWidth;
-    const bigW = Math.min(vw * (vw <= 800 ? .62 : .8), 1000);
+    const bigW = logoW(vw);
     mark.style.width = bigW + "px";
     const svgW = svg.clientWidth, svgH = svg.clientHeight;
     return {
@@ -973,7 +974,6 @@
     document.documentElement.classList.toggle("bar-min", barHidden && scrollY >= 60);
     barNow += (barTarget - barNow) * .2; if (Math.abs(barTarget - barNow) < .3) barNow = barTarget;
     if (barNow !== barLast) { barLast = barNow; document.documentElement.style.setProperty("--bar", barNow + "px"); }
-    const vh = innerHeight;
     geo = geo || measure();
     const { vw, bigW, bigH, hh, top, svgH, lineW, HEADER_W, dyEnd } = geo;
     // p: 0 = big in hero, 1 = docked as header logo
@@ -1095,7 +1095,6 @@
     const ghosts = [];
     for (let k = 1; k <= ECHOES; k++) {
       const c = g.cloneNode();
-      c.classList.add("ghost");
       c.style.opacity = .6 - k * .17;
       g.before(c);
       ghosts.push({ el: c, x: 0, y: 0, r: 0 });
