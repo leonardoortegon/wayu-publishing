@@ -5,23 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>WAYU Publishing — Independent Music Publishing for Songwriters</title>
 <meta name="description" content="WAYU Publishing is an artist-first independent music publisher. We register, track and collect your mechanical, performance and sync royalties worldwide.">
-<link rel="canonical" href="https://wayupublishing.com/">
+<link rel="canonical" href="https://www.wayupublishing.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WAYU Publishing">
 <meta property="og:title" content="WAYU Publishing — Independent Music Publishing">
 <meta property="og:description" content="Artist-first publishing that makes sure you collect every royalty you're owed.">
-<meta property="og:url" content="https://wayupublishing.com/">
-<meta property="og:image" content="https://wayupublishing.com/assets/shareimage.jpg">
+<meta property="og:url" content="https://www.wayupublishing.com/">
+<meta property="og:image" content="https://www.wayupublishing.com/assets/shareimage.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="WAYU Publishing — independent music publishing">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wayupublishing.com/assets/shareimage.jpg">
+<meta name="twitter:image" content="https://www.wayupublishing.com/assets/shareimage.jpg">
 <meta name="theme-color" content="#ff2e88">
 <link rel="icon" href="assets/favicon.png" sizes="270x270" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"WAYU Publishing","url":"https://wayupublishing.com/","email":"hello@wayupublishing.com","sameAs":["https://wayurecords.com"],"founder":[{"@type":"Person","name":"Julian Castañeda"},{"@type":"Person","name":"Leonardo Ortegon"}]}
+{"@context":"https://schema.org","@type":"Organization","name":"WAYU Publishing","url":"https://www.wayupublishing.com/","email":"hello@wayupublishing.com","sameAs":["https://wayurecords.com"],"founder":[{"@type":"Person","name":"Julian Castañeda"},{"@type":"Person","name":"Leonardo Ortegon"}]}
+</script>
+<script>
+  // reload / back mid-page: we restore the scroll ourselves once the content exists, with the page hidden until then, so the hero and its intro never show
+  history.scrollRestoration = "manual";
+  let savedY = 0;
+  try {
+    if (["reload", "back_forward"].includes(performance.getEntriesByType("navigation")[0]?.type)) savedY = +sessionStorage.getItem("scrollY") || 0;
+    addEventListener("pagehide", () => sessionStorage.setItem("scrollY", scrollY));
+  } catch {}
+  if (savedY) document.documentElement.classList.add("restoring");
 </script>
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -30,6 +40,7 @@
   * { box-sizing: border-box; margin: 0; }
   html { scroll-behavior: smooth; overflow-x: clip; }
   body { background: var(--cream); color: var(--pink); font: 18px/1.5 Inter, "Inter Fallback", system-ui, sans-serif; overflow-x: hidden; }
+  html.restoring body { visibility: hidden; }
   a { color: inherit; }
   /* self-hosted (latin subset), preloaded in <head>: no third-party round trip, cached with the site */
   @font-face { font-family: Anton; font-weight: 400; font-display: swap; src: url(assets/fonts/anton-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -83,7 +94,11 @@
   /* Mark: big echoing logo in the hero that shrinks into the header logo on scroll (JS drives the transform) */
   #mark { position: fixed; top: 0; left: 0; z-index: 11; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--pink); text-decoration: none; }
   #mark .layer { grid-area: 1/1; will-change: transform; transform-origin: 50% 50%; }
-  #mark { visibility: hidden; } /* shown by the script after its first placement, so it never flashes in the wrong spot */
+  /* intro: the wave line draws out from the centre, then the logo rises out of it (wipe from the bottom up); the script adds .in, then .done once it has finished */
+  #mark { opacity: 0; clip-path: inset(100% -25% -25% -25%); transition: opacity .5s ease, clip-path .9s cubic-bezier(.2,.7,.2,1); }
+  #mark.in { opacity: 1; clip-path: inset(-25%); }
+  #mark.done { clip-path: none; transition: none; } /* the echo trails must never be clipped */
+  @media (prefers-reduced-motion: reduce) { #mark { opacity: 1; clip-path: none; transition: none; } }
   #mark { cursor: default; -webkit-tap-highlight-color: transparent; }
   #mark svg { display: block; width: 100%; fill: currentColor; }
   #mark .layer > svg:first-child { position: relative; z-index: 1; } /* WAYU always paints over PUBLISHING while the letters travel */
@@ -112,7 +127,7 @@
   .founder { display: flex; align-items: center; gap: 12px; background: var(--cream); color: var(--pink); padding: 10px 22px 10px 10px; border-radius: 99px; rotate: -3deg; transition: rotate .3s, scale .3s; }
   .founder:nth-child(2) { rotate: 2deg; }
   .founder:hover { rotate: 0deg; scale: 1.05; }
-  .founder i { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--pink); color: var(--cream); font: 400 22px Anton, "Anton Fallback", sans-serif; font-style: normal; }
+  .founder img { flex: none; width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
   .founder span { line-height: 1.15; font-weight: 600; }
   .founder small { display: block; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; opacity: .7; }
   .story .stamp { display: inline-block; margin-top: 2vh; border: 2px dashed var(--cream); border-radius: 8px; padding: 14px 18px; font: 400 clamp(22px, 2.4vw, 34px)/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; rotate: -2deg; }
@@ -156,7 +171,6 @@
   }
   /* faded inner border: soft white glow on the inside edge instead of a hard line */
   .glass { position: absolute; z-index: 1; pointer-events: none; will-change: transform; }
-
   /* song split: POV-style dashed bento of tiles, stickers, pill toggle and flags */
   .split .lede, .support .lede { font-size: clamp(18px, 2vw, 24px); max-width: 40ch; margin: -3vh 0 6vh; }
   /* funnel arrows: drawn by scroll from the composition tile down to each royalty card, which fades in as its arrow lands */
@@ -389,8 +403,8 @@
       <h2 class="display">Our story</h2>
       <p class="lede">We're music people who believe independent creators deserve a fair shot. We're not here just to manage your music. We want to be part of your team, part of your story, and grow together.</p>
       <div class="founders">
-        <div class="founder"><i>JC</i><span>Julian Castañeda<small>Co-founder</small></span></div>
-        <div class="founder"><i>M</i><span>Leonardo Ortegon (MIICHII)<small>Co-founder</small></span></div>
+        <div class="founder"><img src="assets/julian.jpg" alt="" width="52" height="52" loading="lazy" decoding="async"><span>Julian Castañeda<small>Co-founder</small></span></div>
+        <div class="founder"><img src="assets/leo.jpg" alt="" width="52" height="52" loading="lazy" decoding="async"><span>Leonardo Ortegon (MIICHII)<small>Co-founder</small></span></div>
       </div>
     </div>
     <div class="body">
@@ -771,7 +785,12 @@
     document.querySelectorAll(".writer img").forEach(im => { const ok = () => im.classList.add("ok"); im.complete && im.naturalWidth ? ok() : im.addEventListener("load", ok); });
   document.querySelectorAll(".writer img").forEach(im => im.addEventListener("error", () => { im.parentNode.classList.add("broken"); im.remove(); }));
     initShapes(); wake();
-  }).catch(() => { grid.innerHTML = '<p>Songwriters could not be loaded.</p>'; });
+  }).catch(() => { grid.innerHTML = '<p>Songwriters could not be loaded.</p>'; }).finally(() => {
+    if (!savedY) return;
+    scrollTo({ top: savedY, behavior: "instant" });
+    document.documentElement.classList.remove("restoring");
+    settled = true; introStart = -1e9; mark.classList.add("in", "done"); // no intro: the logo is already docked
+  });
   document.getElementById("year").textContent = new Date().getFullYear();
 
   const inquiry = document.getElementById("inquiry"), inquiryNote = document.getElementById("inquiry-note");
@@ -858,7 +877,8 @@
   const letters = lefts.map((_, i) => [...mark.querySelectorAll(`.pub > :nth-child(${i + 1})`)]);
   const lerp = (a, b, p) => a + (b - a) * p;
   const waves = document.getElementById("waves"), wctx = waves.getContext("2d");
-  let energy = 0, lastY = scrollY, lastMx = 0, blast = 0;
+  let energy = 0, lastY = scrollY, lastMx = 0, blast = 0, introStart = null; // introStart: when the line begins drawing out
+  let settled = !savedY; // no drawing until the saved scroll is back: at scroll 0 the hero's cream backdrop would cover most of the screen
   // echo blast: tapping the big hero logo sends the echoes flying outward and spikes the sound waves
   mark.addEventListener("click", e => {
     if (scrollY > innerHeight * .3) return; // docked in the header it's a normal home link
@@ -892,7 +912,7 @@
   };
   addEventListener("resize", () => geo = null);
   document.fonts && document.fonts.ready.then(() => geo = null);
-  let lastMark = "", lastE = -1; const lastLetter = [];
+  let lastMark = "", lastE = -1, lastFrame = ""; const lastLetter = [];
   const tick = () => {
     const vh = innerHeight;
     geo = geo || measure();
@@ -928,22 +948,34 @@
     energy = energy * .94 + Math.abs(scrollY - lastY) * .4 + Math.abs(mx - lastMx) * 60;
     lastY = scrollY; lastMx = mx;
     const dpr = Math.min(devicePixelRatio || 1, 2), W = waves.clientWidth, H = waves.clientHeight; // a 3x phone screen would be 9x the pixels to clear and fill every frame
-    if (waves.width !== W * dpr) { waves.width = W * dpr; waves.height = H * dpr; }
-    wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    wctx.clearRect(0, 0, W, H); wctx.globalAlpha = 1;
-    {
+    const cw = Math.round(W * dpr), ch = Math.round(H * dpr); // canvas sizes are whole numbers: comparing the raw product would reset it every frame at 125% or 150% scaling
+    if (waves.width !== cw || waves.height !== ch) { waves.width = cw; waves.height = ch; }
+    // once the intro is over the drawing depends only on these, so an unchanged frame keeps what's on the canvas
+    const frame = introStart !== null && performance.now() - introStart > 650 ? [W, H, dpr, e, scrollY, mx, moved, Math.round(energy)].join() : "";
+    if (settled && (!frame || frame !== lastFrame)) {
+      lastFrame = frame;
+      wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      wctx.clearRect(0, 0, W, H); wctx.globalAlpha = 1;
       const amp = lerp(10 + Math.min(energy, 90), 1 + Math.min(energy, 30) * .15, e), baseY = lerp(hh * (vw <= 800 ? .92 : .82), 72 + BAR, e), cx = (moved ? mx + .5 : .5) * W;
+      const ip = introStart === null ? 0 : Math.min(1, (performance.now() - introStart) / 650), ie = 1 - (1 - ip) ** 3; // 0 -> 1, eased
       const stp = vw <= 800 ? 10 : 6; // fewer points per line on phones
+      // the scribble: the same lines curled into a small spiral on the line's own spot that spins and draws itself while the page loads (ie = 0), unrolling into the real wave (ie = 1)
+      const drawN = introStart === null ? Math.min(1, performance.now() / 400) : 1, spin = performance.now() * .003 * (1 - ie), R = vw <= 800 ? 11 : 15, T = W + 6; // small and quiet, sitting on the line's own spot
+      const waveY = (px, k) => baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8) + k * .7) * amp * Math.exp(-(((px - cx) / (W * .35)) ** 2)) * (1 - k * .15);
       for (let k = 0; k < 5; k++) {
         if (k && e >= 1) break; // docked: the echo lines are fully faded out, only the border line is drawn
-        wctx.beginPath();
-        if (!k) wctx.moveTo(0, 0);
-        for (let px = 0; px <= W + 6; px += stp) {
-          const env = Math.exp(-(((px - cx) / (W * .35)) ** 2)); // loudest near the cursor
-          const py = baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8) + k * .7) * amp * env * (1 - k * .15);
-          wctx.lineTo(px, py);
+        if (!k) { // header backdrop: cream above the true line, so no gap shows
+          wctx.beginPath(); wctx.moveTo(0, 0);
+          for (let px = 0; px <= T; px += stp) wctx.lineTo(px, waveY(px, 0));
+          wctx.lineTo(T, 0); wctx.closePath(); wctx.fillStyle = "#fdf7f0"; wctx.fill();
         }
-        if (!k) { wctx.save(); wctx.lineTo(W + 6, 0); wctx.closePath(); wctx.fillStyle = "#fdf7f0"; wctx.fill(); wctx.restore(); wctx.beginPath(); for (let px = 0; px <= W + 6; px += stp) wctx.lineTo(px, baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8)) * amp * Math.exp(-(((px - cx) / (W * .35)) ** 2))); } // header backdrop follows the wave, so no gap shows
+        wctx.beginPath();
+        for (let px = 0, first = true; px <= T; px += stp) {
+          const t = px / T; if (ie === 0 && t > drawN) break;
+          const ang = t * 14.5 + spin + k * .45, rr = R * (.12 + .88 * t) * (1 - k * .07);
+          const x = lerp(W / 2 + Math.cos(ang) * rr, px, ie), y = lerp(baseY + Math.sin(ang) * rr * .96, waveY(px, k), ie);
+          first ? wctx.moveTo(x, y) : wctx.lineTo(x, y); first = false;
+        }
         wctx.strokeStyle = PINK; wctx.globalAlpha = (1 - k * .18) * (k ? 1 - e : 1); // main line stays as the border
         wctx.lineWidth = k ? 1 : 2;
         wctx.stroke();
@@ -974,15 +1006,30 @@
       if (l.t !== lt) { l.t = lt; l.el.style.transform = lt; }
       if (l.o !== lo) { l.o = lo; l.el.style.opacity = lo; }
     }
-    if (!mark.style.visibility) mark.style.visibility = "visible";
     loop.hero = idle() ? 0 : requestAnimationFrame(tick);
   };
-  setTimeout(() => mark.style.visibility = "visible", 1500); // safety net if the first frame never comes
+  // the logo appears once the page has loaded (4s cap in case load never fires); a mid-page reload skips all this, see savedY
+  // always plays, quietly: while the page loads a small scribble spins where the wave line will be (nothing else is hidden); once ready it
+  // unrolls into the line and the logo rises out of it. Reduced motion skips it.
+  const startIntro = () => {
+    if (introStart !== null) return;
+    introStart = performance.now(); settled = true; wake();
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { introStart = -1e9; mark.classList.add("in", "done"); return; }
+    setTimeout(() => { mark.classList.add("in"); setTimeout(() => mark.classList.add("done"), 1000); }, 350); // the logo starts rising while the line is unrolling
+  };
+  const showMark = () => {
+    const check = () => {
+      wake(); setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(startIntro)), Math.max(0, 400 - performance.now())); // the scribble gets at least ~0.4s to draw
+    };
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(check);
+  };
+  document.readyState === "complete" ? queueMicrotask(showMark) : addEventListener("load", showMark, { once: true });
+  setTimeout(startIntro, 4000); // safety net
   // glass shapes: each card has its own idle rhythm and reacts to the cursor relative to itself;
   // every shape leaves a trail of outlined echoes that lag behind it
   let cx = -1e4, cy = -1e4;
   addEventListener("pointermove", e => { cx = e.clientX; cy = e.clientY; });
-  const ECHOES = 3;
+  const ECHOES = matchMedia("(pointer: coarse)").matches ? 0 : 3; // touch screens have no pointer to trail, and each echo is one more layer in memory
   let shapes = [];
   const initShapes = () => shapes = [...document.querySelectorAll(".glass")].map(g => {
     const ghosts = [];
@@ -1037,19 +1084,27 @@
         prev = g;
       }
     }
-    loop.float = idle() ? 0 : requestAnimationFrame(float);
+    loop.float = idle() || !writersOn ? 0 : requestAnimationFrame(float);
   };
   // both loops sleep 2s after the last input (all motion eases toward input-driven targets, so it has settled by then) and wake on the next one
   const loop = { hero: 0, float: 0, last: performance.now() };
+  let writersOn = false;
   const idle = () => performance.now() - loop.last > 2000;
   const calm = matchMedia("(prefers-reduced-motion: reduce)").matches; // reduced motion: glass shapes are hidden, skip their loop
   const wake = () => {
     loop.last = performance.now();
     if (!loop.hero) loop.hero = requestAnimationFrame(tick);
-    if (!loop.float && !calm) loop.float = requestAnimationFrame(float);
+    if (!loop.float && !calm && writersOn) loop.float = requestAnimationFrame(float);
   };
   for (const ev of ["pointermove", "scroll", "resize", "click"]) addEventListener(ev, wake, { passive: true });
   wake();
+  // the card loop only runs while the writers section is on screen
+  new IntersectionObserver(([en]) => { writersOn = en.isIntersecting; wake(); }, { rootMargin: "100px" }).observe(document.getElementById("writers"));
+
+  // all the scroll-linked sections below run together, at most once per frame
+  const scrollJobs = [];
+  let scrollQ = 0;
+  addEventListener("scroll", () => { scrollQ ||= requestAnimationFrame(() => { scrollQ = 0; scrollJobs.forEach(f => f()); }); }, { passive: true });
 
   // funnel arrows: they leave one point and draw one at a time as you scroll (progress from where the source tile sits in the viewport); its card appears when the arrow lands
   (() => {
@@ -1094,7 +1149,7 @@
     };
     place(); update();
     addEventListener("resize", () => { place(); update(); });
-    addEventListener("scroll", update, { passive: true });
+    scrollJobs.push(update);
     document.fonts && document.fonts.ready.then(() => { place(); update(); });
   })();
 
@@ -1135,7 +1190,7 @@
         }
       }
     };
-    addEventListener("scroll", pick, { passive: true });
+    scrollJobs.push(pick);
     addEventListener("resize", () => { cur = -1; pick(); });
     document.fonts && document.fonts.ready.then(() => { cur = -1; pick(); });
     pick();
@@ -1160,7 +1215,7 @@
     const redo = () => { fill(); if (!reduce) move(); };
     document.fonts && document.fonts.ready.then(redo);
     addEventListener("resize", redo); redo();
-    if (!reduce) addEventListener("scroll", move, { passive: true });
+    if (!reduce) scrollJobs.push(move);
   })();
 </script>
 </body>

@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://wayupublishing.com/sitemap.xml
+Sitemap: https://www.wayupublishing.com/sitemap.xml
