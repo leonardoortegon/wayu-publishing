@@ -47,7 +47,7 @@
   /* menu: three-line button opens a full-screen solid pink panel of section links */
   .burger { width: 44px; height: 44px; margin: 0 -8px 0 -4px; /* icon lines up with the page margin; tighter to the button */ display: grid; place-content: center; gap: 6px; background: none; border: 0; cursor: pointer; color: var(--pink); }
   .burger i { display: block; width: 28px; height: 3px; border-radius: 3px; background: currentColor; }
-  .menu { position: fixed; inset: 0; z-index: 30; background: var(--pink); color: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 0 4vw; clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .5s cubic-bezier(.7,0,.2,1), visibility 0s .5s; }
+  .menu { position: fixed; inset: 0; z-index: 30; background: var(--pink); color: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 0 4vw; clip-path: inset(0 0 100% 0); will-change: clip-path; visibility: hidden; transition: clip-path .5s cubic-bezier(.7,0,.2,1), visibility 0s .5s; }
   .menu.open { clip-path: inset(0); visibility: visible; transition: clip-path .5s cubic-bezier(.7,0,.2,1); }
   .menu footer { position: absolute; inset: auto 0 0; justify-content: flex-start; align-items: baseline; gap: 6px 36px; padding: 26px 4vw 30px; font-size: 15px; font-weight: 600; }
   .menu .fwave { position: absolute; left: 0; top: -36px; width: 100%; height: 72px; pointer-events: none; } /* the footer rule: same wave line as the hero, in cream */
@@ -56,7 +56,6 @@
   .menu footer a::after { content: ""; width: .42em; height: .42em; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; }
   @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: calc(36px + env(safe-area-inset-bottom)); } .menu footer a { font-size: 34px; line-height: 1; } }
   .menu a { font-family: Anton, sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
-  html.menu-open, html.menu-open body { background: var(--pink); } /* iOS Safari's bottom bar area sits outside the fixed panel; keep it pink too */
   @media (max-width: 800px) { .menu > a { font-size: 9.4vw; white-space: nowrap; } } /* sized so "Artist & Songwriters" stays on one line */
   .menu a:hover { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
   /* the docked header logo, as a cream copy inside the panel: the wipe uncovers it as if it had always been there */
@@ -818,7 +817,7 @@
 
   // menu: open/close the full-screen panel; links close it, Esc closes it, page can't scroll behind it
   const menu = document.getElementById("menu"), burger = document.querySelector(".burger");
-  const setMenu = o => { menu.classList.toggle("open", o); document.documentElement.classList.toggle("menu-open", o); burger.setAttribute("aria-expanded", o); document.documentElement.style.overflow = o ? "hidden" : ""; (o ? menu.querySelector(".x") : burger).focus(); };
+  const setMenu = o => { menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); document.documentElement.style.overflow = o ? "hidden" : ""; (o ? menu.querySelector(".x") : burger).focus({ preventScroll: true }); };
   // static copy of the docked lockup (same math as the scroll animation at its end state)
   let mlogo;
   const dockLogo = () => {
