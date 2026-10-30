@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WAYU Publishing — Independent Music Publishing for Songwriters</title>
+<meta name="description" content="WAYU Publishing is an artist-first independent music publisher. We register, track and collect your mechanical, performance and sync royalties worldwide.">
+<link rel="canonical" href="https://wayupublishing.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WAYU Publishing">
+<meta property="og:title" content="WAYU Publishing — Independent Music Publishing">
+<meta property="og:description" content="Artist-first publishing that makes sure you collect every royalty you're owed.">
+<meta property="og:url" content="https://wayupublishing.com/">
+<meta property="og:image" content="https://wayupublishing.com/assets/shareimage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WAYU Publishing — independent music publishing">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wayupublishing.com/assets/shareimage.jpg">
+<meta name="theme-color" content="#ff2e88">
+<link rel="icon" href="assets/favicon.png" sizes="270x270" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"WAYU Publishing","url":"https://wayupublishing.com/","email":"hello@wayupublishing.com","sameAs":["https://wayurecords.com"],"founder":[{"@type":"Person","name":"Julian Castañeda"},{"@type":"Person","name":"Leonardo Ortegon"}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bar: 34px; --pink: #ff2e88; /* MAIN COLOR: change only this; every other pink is mixed from it (#c8005a passes WCAG AA text contrast) */ --cream: #fdf7f0; --ink: #1a1016; }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { background: var(--cream); color: var(--pink); font: 18px/1.5 Inter, system-ui, sans-serif; overflow-x: hidden; }
+  a { color: inherit; }
+  .display { font-family: Anton, Impact, sans-serif; text-transform: uppercase; line-height: .85; letter-spacing: -.01em; }
+
+  /* sister-site switcher: fixed above the header; --bar offsets the header and the docked logo below it */
+  .sites { position: fixed; inset: 0 0 auto; z-index: 12; height: var(--bar); display: flex; justify-content: center; align-items: center; gap: 22px; background: var(--pink); color: var(--cream); font-size: 15px; font-weight: 600; }
+  .sites a { text-decoration: none; opacity: .8; }
+  .sites a:hover, .sites a[aria-current] { opacity: 1; }
+  .sites a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
+  header { position: fixed; inset: var(--bar) 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 4vw; z-index: 12; height: 72px; }
+  nav { margin-left: auto; display: flex; gap: 10px; }
+  .pill { background: var(--pink); color: var(--cream); padding: 10px 22px; border-radius: 99px; text-decoration: none; font-weight: 600; transition: transform .2s; }
+  .pill:hover { transform: scale(1.06) rotate(-2deg); }
+  /* menu: three-line button opens a full-screen solid pink panel of section links */
+  .burger { width: 44px; height: 44px; margin-left: 6px; display: grid; place-content: center; gap: 6px; background: none; border: 0; cursor: pointer; color: var(--pink); }
+  .burger i { display: block; width: 28px; height: 3px; border-radius: 3px; background: currentColor; }
+  .menu { position: fixed; inset: 0; z-index: 30; background: var(--pink); color: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 0 4vw; clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .5s cubic-bezier(.7,0,.2,1), visibility 0s .5s; }
+  .menu.open { clip-path: inset(0); visibility: visible; transition: clip-path .5s cubic-bezier(.7,0,.2,1); }
+  .menu footer { position: absolute; inset: auto 0 0; justify-content: flex-start; align-items: baseline; gap: 6px 36px; padding: 26px 4vw 30px; font-size: 15px; font-weight: 600; }
+  .menu .fwave { position: absolute; left: 0; top: -36px; width: 100%; height: 72px; pointer-events: none; } /* the footer rule: same wave line as the hero, in cream */
+  .menu footer span { letter-spacing: .12em; text-transform: uppercase; }
+  .menu footer a { font-size: clamp(30px, 4.5vw, 64px); text-decoration: none; }
+  .menu footer a::after { content: " ↗"; font-size: .6em; }
+  @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: 36px; } .menu footer a { font-size: 34px; line-height: 1; } }
+  .menu a { font-family: Anton, sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
+  .menu a:hover { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
+  /* the docked header logo, as a cream copy inside the panel: the wipe uncovers it as if it had always been there */
+  #mlogo { position: absolute; top: 0; left: 0; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--cream); pointer-events: none; }
+  #mlogo .layer { grid-area: 1/1; }
+  #mlogo svg { display: block; width: 100%; fill: currentColor; }
+  #mlogo .layer > svg:first-child { position: relative; z-index: 1; }
+  #mlogo .pub { margin-top: 3cqw; overflow: visible; }
+  .menu .x { position: absolute; top: 18px; right: 4vw; width: 44px; height: 44px; background: none; border: 0; color: inherit; font-size: 38px; line-height: 1; cursor: pointer; }
+  @media (prefers-reduced-motion: reduce) { .menu, .menu.open { transition: none; } }
+
+  /* Mark: big echoing logo in the hero that shrinks into the header logo on scroll (JS drives the transform) */
+  #mark { position: fixed; top: 0; left: 0; z-index: 11; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--pink); text-decoration: none; }
+  #mark .layer { grid-area: 1/1; will-change: transform; transform-origin: 50% 50%; }
+  #mark { cursor: default; -webkit-tap-highlight-color: transparent; }
+  #mark svg { display: block; width: 100%; fill: currentColor; }
+  #mark .layer > svg:first-child { position: relative; z-index: 1; } /* WAYU always paints over PUBLISHING while the letters travel */
+  /* fades from brand pink to the logo file's black + gray as it docks (--e set by JS) */
+  #mark svg:first-child { color: color-mix(in srgb, var(--pink), #000 calc(var(--e, 0) * 100%)); }
+  #mark .pub { color: color-mix(in srgb, var(--pink), #666766 calc(var(--e, 0) * 100%)); margin-top: 3cqw; overflow: visible; }
+  /* each letter of PUBLISHING hops on its own wave from under WAYU into the one-line header lockup (JS sets transforms) */
+  #waves { position: fixed; inset: 0; z-index: 10; width: 100%; height: 100%; pointer-events: none; }
+  #mark .layer:not(:last-child) svg { fill: none; stroke: currentColor; stroke-width: .35; }
+  .hero { height: 100vh; position: relative; display: grid; place-items: center; }
+  /* phones: compact hero so the values section and marquee start in the first screen */
+  @media (max-width: 800px) { .hero { height: 40svh; min-height: 330px; } .hero small { display: none; } .about > p { font-size: 20px; } section.about { padding-block: 32px; } .about h2 { margin-bottom: 3vh; } }
+  .hero small { position: absolute; bottom: 5vh; font-weight: 600; letter-spacing: .2em; }
+
+  section { padding: 14vh 4vw; }
+  h2 { line-height: .92; font-size: clamp(56px, 12vw, 180px); margin-bottom: 6vh; }
+  @media (max-width: 800px) { section { padding-block: 44px; } h2 { margin-bottom: 24px; } }
+  /* our story: solid pink block, cream type; founders as tilted name stickers */
+  .story { background: var(--pink); color: var(--cream); display: grid; grid-template-columns: 1fr 1.3fr; gap: 6vw; }
+  .story h2 { margin-bottom: 4vh; }
+  .story .lede { font-size: clamp(20px, 2.2vw, 30px); font-weight: 600; line-height: 1.25; max-width: 24ch; }
+  .story .body p { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; margin-bottom: 1.2em; max-width: 60ch; }
+  .story .body b { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: 1.25em; letter-spacing: .01em; }
+  .founders { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6vh; }
+  .founder { display: flex; align-items: center; gap: 12px; background: var(--cream); color: var(--pink); padding: 10px 22px 10px 10px; border-radius: 99px; rotate: -3deg; transition: rotate .3s, scale .3s; }
+  .founder:nth-child(2) { rotate: 2deg; }
+  .founder:hover { rotate: 0deg; scale: 1.05; }
+  .founder i { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--pink); color: var(--cream); font: 400 22px Anton, sans-serif; font-style: normal; }
+  .founder span { line-height: 1.15; font-weight: 600; }
+  .founder small { display: block; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; opacity: .7; }
+  .story .stamp { display: inline-block; margin-top: 2vh; border: 2px dashed var(--cream); border-radius: 8px; padding: 14px 18px; font: 400 clamp(22px, 2.4vw, 34px)/1 Anton, sans-serif; text-transform: uppercase; rotate: -2deg; }
+  @media (max-width: 800px) { .story { grid-template-columns: 1fr; } }
+  .about { background: var(--pink); color: var(--cream); }
+  .about > p { font-size: clamp(24px, 3.4vw, 48px); line-height: 1.2; max-width: 28ch; font-weight: 600; }
+  /* the four values: numbered pledges under the headline that promises them */
+  .values { list-style: none; padding: 0; margin-top: 10vh; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3vw; counter-reset: v; }
+  .values li { border-top: 3px solid var(--cream); padding-top: 18px; counter-increment: v; }
+  .values li::before { content: "0" counter(v); font-weight: 600; font-size: 14px; letter-spacing: .15em; opacity: .75; }
+  .values h3 { font: 400 clamp(36px, 3.6vw, 60px)/.9 Anton, sans-serif; text-transform: uppercase; margin: 10px 0 12px; overflow-wrap: anywhere; }
+  .values p { font-size: clamp(16px, 1.2vw, 18px); line-height: 1.5; }
+  @media (max-width: 800px) { .values { grid-template-columns: 1fr; gap: 22px; margin-top: 32px; } .values h3 { font-size: 40px; } }
+
+  /* writer cards: pink posters with ring shapes that move only on hover and scroll */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 32px; overflow: clip; } /* keeps spill inside the writers area */
+  /* shapes overflow their card and run across neighbors; white lines vanish on the cream gaps */
+  .writer { position: relative; display: block; aspect-ratio: 4/5; background: var(--pink); color: var(--cream); text-decoration: none; border-radius: 6px; }
+  .writer .in { height: 100%; display: flex; flex-direction: column; align-items: center; gap: 4%; padding: 6% 7%; container-type: inline-size; }
+  .writer h3 { font: 400 15cqw/.85 Anton, sans-serif; text-transform: uppercase; text-align: center; letter-spacing: -.01em; height: 26cqw; display: flex; align-items: center; justify-content: center; } /* room for two lines, so the photo box sits at the same height on every card */
+  .writer h3.long { font-size: 11cqw; }
+  /* the photo fills the whole card (behind the name and tagline); it's tinted from the start, so nothing jumps while photos arrive */
+  .writer .in { position: relative; }
+  .writer .in > h3, .writer .in > p { position: relative; z-index: 1; }
+  .writer .img { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; background: color-mix(in srgb, var(--pink), #000 14%); }
+  .writer .img:has(img)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--pink), transparent 32%, transparent 62%, var(--pink)); opacity: .8; } /* pink fade top and bottom keeps the text readable */
+  .writer .img.ph, .writer .img.broken { display: grid; place-items: center; background: none; } /* no photo yet: plain pink card with initials */
+  .writer .img.ph::before, .writer .img.broken::before { content: attr(data-ph); font: 400 30cqw Anton, sans-serif; letter-spacing: .02em; }
+  .writer img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter .4s, transform .4s, opacity .5s; }
+  .writer img:not(.ok) { opacity: 0; } /* each photo fades in as it arrives */
+  .writer:hover img { filter: none; transform: scale(1.05); }
+  .writer p { margin-top: auto; font-size: max(9px, 5cqw); font-weight: 600; text-align: center; line-height: 1.2; }
+  /* phones: one swipeable row that snaps card by card; bleeds to the screen edges and peeks the next card */
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62vw; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -4vw; padding: 0 4vw 8px; scroll-padding: 0 4vw; scrollbar-width: none; }
+    .grid::-webkit-scrollbar { display: none; }
+    .writer { scroll-snap-align: start; }
+  }
+  /* faded inner border: soft white glow on the inside edge instead of a hard line */
+  .glass { position: absolute; z-index: 1; pointer-events: none; will-change: transform; }
+
+  /* song split: POV-style dashed bento of tiles, stickers, pill toggle and flags */
+  .split .lede, .support .lede { font-size: clamp(18px, 2vw, 24px); max-width: 40ch; margin: -3vh 0 6vh; }
+  /* funnel arrows: drawn by scroll from the composition tile down to each royalty card, which fades in as its arrow lands */
+  #split .bento { position: relative; }
+  .funnel { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .funnel path { fill: none; stroke: var(--pink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .fall.arm { opacity: 0; translate: 0 28px; transition: opacity .5s, translate .5s, transform .3s, background .3s; }
+  .fall.arm.in { opacity: 1; translate: 0 0; }
+  @media (min-width: 801px) { .funnel-src, .funnel-gap { margin-bottom: 130px; } }
+  .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .tile { position: relative; overflow: hidden; grid-column: span 4; border: 2px dashed var(--pink); border-radius: 6px; padding: clamp(20px, 3vw, 36px); transition: transform .3s, background .3s; }
+  .tile:hover { background-color: #fff; } /* lights up, never moves */
+  .tile h3 { font: 400 clamp(30px, 3.4vw, 52px)/.9 Anton, sans-serif; text-transform: uppercase; margin: 16px 0 10px; }
+  .w6 { grid-column: span 6; }
+  .sticker { position: absolute; top: -14px; right: 18px; background: var(--cream); color: var(--pink); border: 2px solid var(--pink); font: 400 18px/1 Anton, sans-serif; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; rotate: 4deg; } .w12 { grid-column: span 12; }
+  .tile .who { font-weight: 600; margin-bottom: 10px; }
+  .tile:has(.sticker) { overflow: visible; z-index: 1; } /* tag pokes above the tile edge */
+  /* geometric badges (instead of emoji) */
+  .badge { width: 64px; aspect-ratio: 1; display: grid; place-items: center; color: var(--cream); font: 400 30px/1 Anton, sans-serif; transition: transform .4s; }
+  .badge.diamond { background: var(--pink); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+  .badge.shield { background: color-mix(in srgb, var(--pink), #fff 40%); clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); }
+  .badge.hex { background: color-mix(in srgb, var(--pink), #000 25%); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+  .tile:hover .badge { transform: rotate(-12deg) scale(1.15); }
+  /* wavy flags listing where the money comes from */
+  .flags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .flags span { font: 400 16px/1 Anton, sans-serif; text-transform: uppercase; background: var(--pink); color: var(--cream); padding: 6px 10px; transform: skewY(-5deg); border-radius: 3px; }
+  .flags span:nth-child(even) { transform: skewY(5deg); }
+  .tile:hover .flags span { animation: wave .6s ease-in-out infinite alternate; }
+  .tile:hover .flags span:nth-child(even) { animation-delay: -.3s; }
+  @keyframes wave { to { transform: skewY(5deg) translateY(-3px); } }
+  /* phones: the two halves sit side by side (short version); the three earners hang off a rail that starts under the composition */
+  @media (max-width: 800px) {
+    #split .w6 { grid-column: span 6; min-width: 0; padding: 16px 14px; }
+    #split .w6 h3 { font-size: 26px; margin-bottom: 8px; }
+    #split .w6 .who { font-size: 13px; line-height: 1.3; }
+    #split .w6 p:not(.who) { display: none; }
+    #split .w6 .sticker { right: 8px; font-size: 14px; padding: 4px 8px; }
+    #split .fall { margin-left: 28px; }
+    .split .lede { margin: 0 0 3vh; }
+  }
+  /* how we back you: three columns (Collect / Protect / Grow), same dashed + solid-pink tiles as the two halves; each head states the promise, the cards under it prove it */
+  .sg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 26px; align-items: start; }
+  /* each column is one container: the head sits on top, the cards nest inside it */
+  .sg .col { display: flex; flex-direction: column; gap: 14px; padding-bottom: 14px; border: 2px solid var(--pink); border-radius: 6px; overflow: hidden; }
+  .sg .col > .card { margin-inline: 14px; }
+  .sg { position: relative; }
+  /* the solid pink slab slides between the three heads: by scroll, or to whichever column the pointer is over (JS sets its position and the .on column from the scroll) */
+  .sg .hl { position: absolute; left: 0; top: 0; background: var(--pink); border-radius: 6px 6px 0 0; pointer-events: none; transition: transform .55s cubic-bezier(.65, 0, .35, 1), width .55s cubic-bezier(.65, 0, .35, 1), height .55s cubic-bezier(.65, 0, .35, 1); }
+  .sg .hl.hop { opacity: 0; }
+  @media (max-width: 800px) { .sg .hl { transition: opacity .22s; } }
+  .sg .head { position: relative; z-index: 1; padding: clamp(22px, 2.4vw, 34px); border: 0; border-radius: 0; background: transparent; transition: color .4s; }
+  .sg .head:hover { background-color: transparent; }
+  .sg .col.on .head { color: var(--cream); }
+  .sg .card.arm { opacity: 0; translate: 0 28px; transition: opacity .5s, translate .5s, background .3s; }
+  .sg .card.arm.in { opacity: 1; translate: 0 0; }
+  @media (max-width: 800px) { .sg .card.arm { translate: -28px 0; } .sg .card.arm.in { translate: 0 0; } } /* phones: cards slide in from the left, like the column is feeding them in */
+  .sg .verb { font: 400 clamp(52px, 6vw, 96px)/.85 Anton, sans-serif; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; justify-content: space-between; gap: .15em; height: .85em; margin: 0 0 10px; }
+  .sg .verb svg { width: .9em; height: .9em; flex: none; } /* same box for all three head icons; the verb's fixed height keeps the heads level */
+  /* inline svg (a CSS mask of the file fails when the page is opened from disk) so it takes the head's colour: pink at rest, cream on the slab */
+  .sg .tag { font-weight: 600; font-size: clamp(16px, 1.4vw, 20px); }
+  .sg .card { display: grid; grid-template-columns: 44px 1fr; gap: 0 16px; align-content: start; padding: clamp(18px, 2vw, 26px); }
+  .sg .card .sticker { top: -12px; right: 14px; font-size: 14px; padding: 4px 9px; } /* value tag: which of the four values this service keeps */
+  .sg .card .ic { grid-row: 1 / span 4; width: 44px; height: 44px; display: grid; place-items: center; }
+  .sg .card .ic img, .sg .card .ic svg { max-width: 100%; max-height: 100%; width: auto; height: 100%; }
+  .sg .card .ic b { font: 400 34px/1 Anton, sans-serif; }
+  .sg h4 { font: 400 clamp(22px, 1.9vw, 28px)/.95 Anton, sans-serif; text-transform: uppercase; margin: 2px 0 8px; }
+  .sg .card p { font-size: 15px; line-height: 1.45; }
+  .sg .card .flags { margin-top: 12px; } .sg .card .flags span { font-size: 14px; padding: 5px 9px; }
+  .checks { list-style: none; padding: 0; margin: 14px 0 0; font-weight: 600; font-size: 14px; display: grid; gap: 6px; }
+  .checks li::before { content: "✓"; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 8px; border: 2px solid currentColor; border-radius: 50%; font-size: 11px; }
+  .payout { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-weight: 600; }
+  .payout span { background: var(--pink); color: var(--cream); border-radius: 99px; padding: 6px 14px; font: 400 18px/1 Anton, sans-serif; text-transform: uppercase; }
+  @media (max-width: 800px) { .sg { grid-template-columns: 1fr; gap: 28px; } .sg .tile { grid-column: auto; } }
+  /* solid pink tiles */
+  .tile.solid { background: var(--pink); color: var(--cream); border-style: solid; }
+  .tile.solid:hover { background-color: color-mix(in srgb, var(--pink), #000 12%); }
+  .tile.solid .flags span { background: var(--cream); color: var(--pink); }
+  @media (max-width: 800px) { .tile, .w6 { grid-column: span 12; } }
+  /* phones: no tap-to-tilt, compact royalty tiles (badge beside title) */
+  @media (hover: none) { .tile:hover { background-color: transparent; } .tile.solid:hover { background-color: var(--pink); } }
+  @media (max-width: 800px) {
+    #split .bento { gap: 12px; }
+    #split .tile { padding: 20px; }
+    #split .tile:has(> .badge) { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; }
+    #split .tile:has(> .badge) > :not(.badge, h3) { grid-column: 1 / -1; }
+    #split .tile .badge { width: 44px; font-size: 22px; }
+    #split .tile:has(> .badge) h3 { margin: 0; font-size: 30px; }
+    #split .flags span { font-size: 13px; padding: 5px 8px; }
+    #split .tile p { font-size: 15px; line-height: 1.45; }
+  }
+  .marquee { overflow: hidden; white-space: nowrap; border-block: 3px solid var(--pink); padding: 18px 0; }
+  .marquee span { display: inline-block; color: #000; white-space: nowrap; font-size: clamp(40px, 7vw, 100px); } /* moved by scroll, not time (JS); the words repeat x8 and wrap at half, so it never runs out on wide screens */
+
+  .contact { text-align: center; }
+  .inquiry { max-width: 680px; margin: 0 auto; text-align: left; border: 2px dashed var(--pink); border-radius: 6px; padding: clamp(24px, 4vw, 44px); background: #fff; transition: background .3s; }
+  .inquiry:hover { background: color-mix(in srgb, #fff, var(--cream) 40%); }
+  .inquiry .field { margin: 0 0 28px; padding: 0; border: 0; min-width: 0; }
+  .inquiry label { display: block; font: 400 clamp(20px, 2.4vw, 28px)/1.05 Anton, sans-serif; text-transform: uppercase; margin-bottom: 10px; }
+  .inquiry .q { font: 600 clamp(15px, 1.6vw, 17px)/1.45 Inter, sans-serif; text-transform: none; margin-bottom: 14px; max-width: 52ch; }
+  .inquiry input[type="text"], .inquiry input[type="email"] { width: 100%; padding: 14px 16px; border: 2px solid var(--pink); border-radius: 6px; background: var(--cream); color: var(--ink); font: inherit; transition: background .2s, box-shadow .2s; }
+  .inquiry input[type="text"]:focus, .inquiry input[type="email"]:focus { outline: none; background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--pink), transparent 65%); }
+  .inquiry .choices { display: flex; flex-wrap: wrap; gap: 10px; }
+  .inquiry .opt { position: relative; margin: 0; cursor: pointer; font-weight: 600; font-size: 16px; }
+  .inquiry .opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .inquiry .opt span { display: inline-block; padding: 10px 20px; border: 2px solid var(--pink); border-radius: 99px; transition: background .2s, color .2s, transform .2s; pointer-events: none; }
+  .inquiry .opt input:checked + span { background: var(--pink); color: var(--cream); }
+  .inquiry .opt input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .inquiry .opt:hover span { transform: scale(1.04) rotate(-1deg); }
+  .inquiry .actions { margin-top: 36px; text-align: center; }
+  .inquiry .submit { border: 0; cursor: pointer; font: inherit; font-size: 18px; padding: 14px 36px; }
+  .inquiry .submit:disabled { opacity: .55; cursor: wait; transform: none; }
+  .inquiry .note { margin-top: 18px; text-align: center; font-size: 15px; font-weight: 600; min-height: 1.5em; }
+  .inquiry .note.ok { color: var(--ink); }
+  .inquiry .note.err { color: color-mix(in srgb, var(--pink), #000 35%); }
+  @media (max-width: 600px) { .inquiry .choices { gap: 8px; } .inquiry .opt span { padding: 9px 14px; font-size: 15px; } }
+  footer { padding: 30px 4vw; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) { .sg .hl, .sg .head { transition: none; } .tile:hover .flags span { animation: none; } #mark .layer:not(:last-child), .glass { display: none; } }
+  @media (max-width: 600px) { .pill { padding: 8px 14px; font-size: 15px; } }
+</style>
+</head>
+<body>
+
+<a id="mark" href="#top" aria-label="WAYU Publishing home">
+  <span class="layer">
+    <!-- Logo paths from "WAYU RECORDS.svg": WAYU and PUBLISHING share the same 0–29 y-range. Echo layers are cloned from this by the script. -->
+    <svg viewBox="0 0 101.95 29.04" aria-hidden="true">
+      <polyline points="64.7 10.64 69.63 .52 76.07 .55 67.93 16.95 73.7 28.61 67.29 28.61 67.29 28.61 53.33 .52 53.33 .52 59.03 .52 59.81 .54 73.7 28.61"/>
+      <path d="M101.95,17.91c0,5.9-4.86,10.66-10.81,10.66s-10.81-4.76-10.84-10.62V.53h5.58v17.38c0,1.38.56,2.67,1.55,3.66,1,.98,2.31,1.49,3.71,1.49s2.67-.51,3.67-1.49c1-.98,1.47-2.21,1.51-3.58v-.03s0-17.42,0-17.42h5.58l.04,17.37h0Z"/>
+      <polygon points="45.91 13.4 50.16 21.69 41.78 21.69 45.91 13.4 45.91 .53 32.03 28.56 59.78 28.56 45.91 .53 45.91 13.4"/>
+      <path d="M0,.5l13.9,28.08,5.45-11,5.25,11L38.47.55,0,.5ZM14.06,15.13l-4-7.56h4.04l1.83,3.78-1.88,3.78ZM24.53,15.06l-4-7.56h-.38,8.12l-3.75,7.56Z"/>
+    </svg>
+    <svg class="pub" viewBox="107.7 0 249.27 29.04" aria-hidden="true">
+      <path d="M107.7.48h11.07c6.58,0,10.67,3.73,10.67,9.39v.08c0,6.26-5.01,9.59-11.23,9.59h-5.58v9.03h-4.93V.48ZM118.37,15.08c3.73,0,6.06-2.09,6.06-5.01v-.08c0-3.33-2.37-5.01-6.06-5.01h-5.74v10.11h5.74Z"/>
+      <path d="M134.06,16.65V.48h4.93v15.97c0,5.25,2.65,7.98,7.1,7.98s7.06-2.61,7.06-7.78V.48h4.93v15.93c0,8.38-4.73,12.6-12.08,12.6s-11.95-4.21-11.95-12.36Z"/>
+      <path d="M164.87.48h12.6c3.25,0,5.7.84,7.34,2.49,1.24,1.24,1.89,2.81,1.89,4.65v.08c0,3.41-1.93,5.17-4.01,6.26,3.33,1.16,5.58,2.97,5.58,6.82v.08c0,5.01-4.13,7.7-10.39,7.7h-13V.48ZM181.76,8.42c0-2.25-1.72-3.57-4.93-3.57h-7.1v7.46h6.74c3.21,0,5.29-1.24,5.29-3.81v-.08ZM183.33,20.26c0-2.41-1.89-3.77-5.78-3.77h-7.82v7.7h8.18c3.37,0,5.42-1.28,5.42-3.85v-.08Z"/>
+      <path d="M193.84.48h4.93v23.59h14.76v4.49h-19.7V.48Z"/>
+      <path d="M218.92.48h4.93v28.08h-4.93V.48Z"/>
+      <path d="M229.47,24.47l2.97-3.53c2.73,2.37,5.38,3.65,8.87,3.65,3.05,0,4.97-1.44,4.97-3.53v-.08c0-1.97-1.12-3.13-6.34-4.29-5.98-1.4-9.35-3.25-9.35-8.38v-.08c0-4.81,4.01-8.14,9.59-8.14,4.13,0,7.3,1.24,10.19,3.53l-2.65,3.73c-2.57-1.89-5.05-2.89-7.62-2.89-2.89,0-4.57,1.44-4.57,3.33v.08c0,2.17,1.28,3.13,6.7,4.41,5.9,1.52,8.99,3.53,8.99,8.22v.08c0,5.3-4.13,8.38-10.03,8.38-4.33,0-8.34-1.44-11.71-4.49Z"/>
+      <path d="M257.03.48h4.93v11.67h13.4V.48h4.93v28.08h-4.93v-11.83h-13.4v11.83h-4.93V.48Z"/>
+      <path d="M287.81.48h4.93v28.08h-4.93V.48Z"/>
+      <path d="M300.24.48h4.57l15.04,19.42V.48h4.85v28.08h-4.13l-15.49-19.98v19.98h-4.85V.48Z"/>
+      <path d="M330.69,14.6v-.08c0-7.86,5.98-14.52,14.48-14.52,4.85,0,7.9,1.36,10.79,3.81l-3.13,3.73c-2.17-1.85-4.33-2.97-7.86-2.97-5.13,0-9.11,4.49-9.11,9.87v.08c0,5.78,3.81,10.03,9.55,10.03,2.69,0,5.05-.84,6.78-2.13v-5.21h-7.18v-4.33h11.95v11.79c-2.81,2.37-6.74,4.37-11.71,4.37-8.79,0-14.56-6.26-14.56-14.44Z"/>
+    </svg>
+  </span>
+</a>
+
+<div class="sites">
+  <a href="https://wayurecords.com">Label</a>
+  <a href="/" aria-current="page">Publisher</a>
+</div>
+<header>
+  <nav>
+    <a class="pill" href="#contact">Let's Talk</a>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </nav>
+</header>
+<div class="menu" id="menu" aria-label="Menu">
+  <button class="x" aria-label="Close menu">×</button>
+  <a href="#story">About us</a>
+  <a href="#writers">Artist & Songwriters</a>
+  <a href="#contact">Contact us</a>
+  <footer><canvas class="fwave" aria-hidden="true"></canvas><span>WAYU Family:</span><a href="https://wayurecords.com">WAYU Records</a><a href="https://label.tools">LabelTools</a></footer>
+</div>
+
+<main id="top">
+  <section class="hero" aria-label="WAYU Publishing">
+    <canvas id="waves" aria-hidden="true"></canvas>
+    <h1 class="sr-only">WAYU Publishing - independent music publishing</h1>
+    <small>INDEPENDENT MUSIC PUBLISHING</small>
+  </section>
+
+  <section class="about" id="about">
+    <h2 class="display">Music publishing<br>built on values.</h2>
+    <p>We help independent artists and songwriters collect their royalties, protect their rights, and make the most of their music.</p>
+    <ol class="values">
+      <li><h3>Transparency</h3><p>Honest reporting. No surprises. Trust is built through clarity, and that's non-negotiable.</p></li>
+      <li><h3>Fairness</h3><p> Fair deals and respectful publishing support.</p></li>
+      <li><h3>Collaboration</h3><p>A growing community of creators who support each other, share what they know, and believe there's room for everyone to succeed..</p></li>
+      <li><h3>Education</h3><p>The tools and know-how to understand how your music earns, and how to protect it.</p></li>
+    </ol>
+  </section>
+
+  <div class="marquee display" aria-hidden="true"><span>Transparency ✺ Fairness ✺ Collaboration ✺ Education ✺ </span></div>
+
+  <section class="split" id="split">
+    <h2 class="display">A song has<br>two halves.</h2>
+    <p class="lede">One song, two separate copyrights, and different ways to get paid. Understanding the difference is the first step to knowing what you're owed.</p>
+    <div class="bento">
+      <div class="tile w6 solid funnel-src" style="--tilt:-1.5deg">
+        <span class="sticker">That's us</span>
+        <h3>The composition</h3>
+        <p class="who">Melody + lyrics · Songwriters &amp; publishers</p>
+        <p>Earns mechanical royalties every time it's streamed or downloaded, performance royalties when it's played in public, and sync fees when it's paired with picture.</p>
+      </div>
+      <div class="tile w6 funnel-gap" style="--tilt:1.5deg">
+        <h3>The sound recording</h3>
+        <p class="who">The master · Artist or label</p>
+        <p>The actual recorded version of the song. Earns from streams, downloads, physical sales, neighboring rights and sync of that specific recording.</p>
+      </div>
+
+
+      <div class="tile fall" style="--tilt:-2deg">
+        <span class="badge diamond" aria-hidden="true">M</span>
+        <h3>Mechanical</h3>
+        <p>Earn royalties when your music is streamed on demand, downloaded, or reproduced on physical formats like vinyl and CDs.</p>
+        <div class="flags"><span>Spotify</span><span>YouTube Music</span><span>Apple</span><span>Beatport</span><span>Vinyl</span><span>More...</span></div>
+      </div>
+      <div class="tile fall" style="--tilt:1deg">
+        <span class="badge shield" aria-hidden="true">P</span>
+        <h3>Performance</h3>
+        <p>Earn royalties when your music is streamed, broadcast, or played in public, from Spotify and radio to live shows, clubs, restaurants, and shops.</p>
+        <div class="flags"><span>Radio</span><span>TV</span><span>Live</span><span>Clubs</span><span>Restaurants</span><span>Shops</span><span>More...</span></div>
+      </div>
+      <div class="tile fall" style="--tilt:-1deg">
+        <span class="badge hex" aria-hidden="true">S</span>
+        <h3>Sync</h3>
+        <p>Earn money when your music is licensed for use in films, TV shows, advertisements, or video games.</p>
+        <div class="flags"><span>Film</span><span>Series</span><span>Ads</span><span>Games</span></div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div>
+      <h2 class="display">Our story</h2>
+      <p class="lede">We're music people who believe independent creators deserve a fair shot. We're not here just to manage your music. We want to be part of your team, part of your story, and grow together.</p>
+      <div class="founders">
+        <div class="founder"><i>JC</i><span>Julian Castañeda<small>Co-founder</small></span></div>
+        <div class="founder"><i>M</i><span>Leonardo Ortegon (MIICHII)<small>Co-founder</small></span></div>
+      </div>
+    </div>
+    <div class="body">
+      <p><b>Two friends, two perspectives.</b> MIICHII, a lifelong musician with a degree in Music Business, knew firsthand how frustrating publishing could be. His longtime friend Julian Castañeda, a developer and music executive with roots in 2Many Records and founder of WAYU Records in 2017, saw an opportunity to bring technology and his industry experience into music publishing.</p>
+      <p><b>One shared idea.</b> Between missing royalties, scattered registrations, and labels collecting on behalf of artists without providing statements, it was clear something needed to change. Together, they set out to build a simpler, more transparent way to manage publishing, starting with MIICHII's own catalog.</p>
+      <p><b>Built for more than us.</b> What began as a project between friends quickly proved its value. Realizing other independent artists faced the same challenges, they turned their solution into WAYU Publishing. Not just to manage music, but to become part of the team, part of the story, and grow together.</p>
+      <span class="stamp">Demystify rights ✺ Collect it all ✺ Grow beyond streams</span>
+    </div>
+  </section>
+
+  <section class="writers" id="writers">
+    <h2 class="display">Artists & Songwriters</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="support" id="support">
+    <h2 class="display">How we<br>back you.</h2>
+    <p class="lede">The help and know-how to collect every royalty, protect your rights and actually understand the publishing game.</p>
+    <div class="sg">
+      <div class="hl" aria-hidden="true"></div>
+      <div class="col on">
+        <div class="tile head"><h3 class="verb">Collect <svg viewBox="0 0 256 256" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle cx="113" cy="145" r="88"/><path d="M113 57C88 78 76 109 76 145s12 67 37 88M113 57c25 21 37 52 37 88s-12 67-37 88"/><path d="M26 145h174M43 94c20 14 44 21 70 21s50-7 70-21M43 196c20-14 44-21 70-21s50 7 70 21"/><path d="M113 14v18M159 19l-5 17M204 40l-12 15M228 84l-18 6"/></g></svg></h3><p class="tag">Every royalty, everywhere.</p></div>
+        <div class="tile card"><span class="sticker">Fairness</span><span class="ic"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 29V9l17-3v20"/><circle cx="11" cy="29" r="4"/><circle cx="28" cy="26" r="4"/></svg></span><h4>Every play counts</h4><p>Your music travels. Your royalties should follow. We help collect publishing royalties across a growing network of territories.</p><div class="flags"><span>USA</span><span>MEX</span><span>COL</span><span>ESP</span><span>BRA</span><span>ARG</span><span>CAN</span><span>UK</span></div></div>
+        <div class="tile card"><span class="sticker">Transparency</span><span class="ic"><svg viewBox="0 0 256 256" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M57 37h116l25 25v145a12 12 0 0 1-12 12H57a12 12 0 0 1-12-12V49a12 12 0 0 1 12-12Z"/><path d="M173 37v27h25"/><path d="M70 165h96M70 187h61"/><path d="M143 102c0-13-9-21-22-21s-22 7-22 18c0 27 47 11 47 37 0 12-10 19-24 19s-24-8-24-20M122 72v91"/><path d="m182 176 10 10 19-22"/></g></svg></span><h4>Transparent payments</h4><p>Know what you’ve earned and where it came from, with clear royalty statements and regular payouts.</p><ul class="checks"><li>Spotify · mechanical</li><li>Radio · performance</li><li>Ad campaign · sync</li></ul><div class="payout">Your payout <span>On time ✺</span></div></div>
+        <div class="tile card"><span class="sticker">Collaboration</span><span class="ic"><svg viewBox="0 0 240 240" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M45 94 145 55 Q149 53 151 59 L161 82 53 123 Z"/><path d="M64 88 73 112 M92 77 101 101 M120 66 129 91"/><rect x="49" y="111" width="113" height="86" rx="7"/><path d="M49 130 H162"/><path d="M67 111 76 130 M94 111 103 130 M121 111 130 130"/><path d="M81 166 H129 M118 155 129 166 118 177"/><path d="M181 75 195 56 M194 102 214 95 M195 130 215 139"/></g></svg></span><h4>Sync opportunities</h4><p>Get your music heard beyond streaming. We pitch your songs for films, TV, advertising, and games.</p><div class="flags"><span>Film</span><span>TV</span><span>Ads</span><span>Games</span></div></div>
+      </div>
+      <div class="col">
+        <div class="tile head"><h3 class="verb">Protect <svg viewBox="0 0 256 210" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M128 29 C112 42 94 49 77 54 C76 103 89 141 128 168 C167 141 180 103 179 54 C162 49 144 42 128 29 Z"/><path d="M128 29 C144 42 162 49 179 54 C180 103 167 141 128 168 Z" fill="currentColor" stroke="none"/><path d="M128 29 C112 42 94 49 77 54 C76 103 89 141 128 168 C167 141 180 103 179 54 C162 49 144 42 128 29 Z"/><path d="M128 30 V167" stroke-width="5"/><path d="M47 105 L26 103 M57 135 L40 151 M195 97 L218 90 M197 127 L220 140"/></g></svg></h3><p class="tag">Your rights stay yours.</p></div>
+        <div class="tile card"><span class="sticker">Transparency</span><span class="ic"><svg viewBox="0 0 256 256" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M65 48 Q65 39 75 39 L137 37 L172 70 L174 182 Q174 193 163 193 L77 195 Q67 195 67 184 Z"/><path d="M137 39 L137 69 Q137 74 144 74 L172 74"/><path d="M91 101 L143 100 M91 126 L143 125 M91 151 L143 150"/><path d="M195 55 L210 34 M211 85 L231 76 M211 112 L233 119"/></g></svg></span><h4>Rights management</h4><p>Your music deserves proper recognition. We help register your compositions with the right societies around the world.</p><div class="flags"><span>Registration</span><span>Worldwide</span></div></div>
+        <div class="tile card"><span class="sticker">Fairness</span><span class="ic"><b>©</b></span><h4>Rights protection</h4><p>Stay in control of your work. We help identify registration issues, conflicting claims, and potential royalty disputes.</p><div class="flags"><span>Claim review</span><span>Dispute support</span></div></div>
+      </div>
+      <div class="col">
+        <div class="tile head"><h3 class="verb">Grow <svg viewBox="0 0 256 256" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M45 132 153 43"/><path d="M133 43h24l-4 26"/></g><g fill="currentColor"><rect x="55" y="160" width="23" height="45" rx="4"/><rect x="92" y="139" width="23" height="66" rx="4"/><rect x="129" y="116" width="23" height="89" rx="4"/></g></svg></h3><p class="tag">Know the game, build the career.</p></div>
+        <div class="tile card"><span class="sticker">Education</span><span class="ic"><svg viewBox="0 0 240 200" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M42 57H30V139H94C105 139 114 143 120 150C126 143 135 139 146 139H210V57H198"/><path d="M120 66C103 52 83 47 46 49V126C79 124 103 130 120 143V66Z"/><path d="M120 66C137 52 157 47 194 49V126C161 124 137 130 120 143V66Z"/><path d="M120 66V143"/></g></svg></span><h4>Educational resources</h4><p>Music publishing shouldn’t be a mystery. Explore practical guides and resources to better understand your rights and royalties.</p><div class="flags"><span>Articles</span><span>Guides</span><span>Tools</span></div></div>
+        <div class="tile card"><span class="sticker">Collaboration</span><span class="ic"><svg viewBox="0 0 256 256" fill="none" aria-hidden="true"><g fill="currentColor"><circle cx="119" cy="75" r="23"/><circle cx="65" cy="101" r="18"/><circle cx="173" cy="105" r="17"/><path d="M68 183c0-34 20-64 51-64s51 30 51 64v2H68z"/><path d="M24 183c0-28 14-51 37-53 8 0 15 3 20 8-13 13-21 29-24 47H24z"/><path d="M181 185c-3-18-11-34-24-47 5-5 12-8 20-8 23 2 37 25 37 53v2z"/></g><g stroke="currentColor" stroke-width="9" stroke-linecap="round"><path d="m199 67 13-22"/><path d="m219 91 24-12"/><path d="m224 121 25 4"/></g></svg></span><h4>Community support</h4><p>Connect with independent creators who share knowledge, support each other, and believe in growing together.</p><div class="flags"><span>Peers</span><span>Shared insights</span></div></div>
+        <div class="tile card"><span class="sticker">Collaboration</span><span class="ic"><svg viewBox="0 0 800 800" fill="none" aria-hidden="true"><path fill="currentColor" d="M150 608 316 384a5 5 0 0 1 8 0l44 82 114-179V147a9 9 0 0 1 9-9h120a9 9 0 0 1 5 16l-43 28 43 29a8 8 0 0 1-5 14H500v62l171 318a5 5 0 0 1-4 7H154a5 5 0 0 1-4-4Z"/></svg></span><h4>Career development</h4><p>Your journey doesn’t end with a release. We’re here to share what we know, explore opportunities, and help you take the next step.</p><div class="flags"><span>1:1 mentoring</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2 class="display">Got songs?</h2>
+    <form class="inquiry" id="inquiry" action="/api/inquiry" method="post" novalidate>
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true">
+      <div class="field">
+        <label for="full-name">Full Name</label>
+        <input type="text" id="full-name" name="full_name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="artist-name">Artist Name</label>
+        <input type="text" id="artist-name" name="artist_name" required autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required autocomplete="email" inputmode="email">
+      </div>
+      <fieldset class="field">
+        <p class="q" id="q-represented">Are your compositions currently represented by a publisher or administrator?</p>
+        <div class="choices" role="radiogroup" aria-labelledby="q-represented">
+          <label class="opt"><input type="radio" name="publisher_represented" value="Yes" required><span>Yes</span></label>
+          <label class="opt"><input type="radio" name="publisher_represented" value="No"><span>No</span></label>
+          <label class="opt"><input type="radio" name="publisher_represented" value="Not Sure"><span>Not Sure</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <p class="q" id="q-open">Whether or not you’re currently represented, are you open to exploring new publishing or administration options for your music?</p>
+        <div class="choices" role="radiogroup" aria-labelledby="q-open">
+          <label class="opt"><input type="radio" name="open_to_publishing" value="Yes" required><span>Yes</span></label>
+          <label class="opt"><input type="radio" name="open_to_publishing" value="No"><span>No</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <p class="q" id="q-compositions">Roughly how many original compositions have you created or co-written in the past 12 months?</p>
+        <div class="choices" role="radiogroup" aria-labelledby="q-compositions">
+          <label class="opt"><input type="radio" name="compositions_12mo" value="0" required><span>0</span></label>
+          <label class="opt"><input type="radio" name="compositions_12mo" value="1-5"><span>1–5</span></label>
+          <label class="opt"><input type="radio" name="compositions_12mo" value="6-10"><span>6–10</span></label>
+          <label class="opt"><input type="radio" name="compositions_12mo" value="10+"><span>10+</span></label>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="submit" class="pill submit">Send</button>
+        <p class="note" id="inquiry-note" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <span>© <span id="year"></span> WAYU Publishing</span>
+</footer>
+
+<script type="application/json" id="songwriters">
+[
+  {
+    "songwriter_name": "ADRIAN SCHNEIDER",
+    "primary_artist": null,
+    "associated_artists": [],
+    "tagline": null,
+    "image_url": "assets/adrian-schnider.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ALEJANDRO GALVAN FIMBRES",
+    "primary_artist": "Alex Galvan",
+    "associated_artists": [
+      "Alex Galvan",
+      "CASUAL SX",
+      "Bioniq"
+    ],
+    "tagline": null,
+    "image_url": "assets/alex-galvan.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ALLAN NUDELMAN",
+    "primary_artist": "Kalaman",
+    "associated_artists": [
+      "Kalaman"
+    ],
+    "tagline": null,
+    "image_url": "assets/kalaman.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ALVARO SUAREZ JIMENEZ",
+    "primary_artist": "Alvaro Suarez",
+    "associated_artists": [
+      "Alvaro Suarez"
+    ],
+    "tagline": null,
+    "image_url": "assets/alvaro-suarez.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ANDRES FELIPE PATINO GUZMAN",
+    "primary_artist": "Yaku means water",
+    "associated_artists": [
+      "Yaku means water"
+    ],
+    "tagline": null,
+    "image_url": "assets/yaku-means-water.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ANTONIO FILOMENO LEITAO RICCIARDI",
+    "primary_artist": "To Ricciardi",
+    "associated_artists": [
+      "To Ricciardi"
+    ],
+    "tagline": null,
+    "image_url": "assets/to-ricciardi.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ATA BULCAN ÜRKÜT",
+    "primary_artist": "Predex",
+    "associated_artists": ["Predex"],
+    "tagline": null,
+    "image_url": "assets/predex.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "BALJIT RAYAT",
+    "primary_artist": "AntahKarana",
+    "associated_artists": [
+      "AntahKarana"
+    ],
+    "tagline": null,
+    "image_url": "assets/antahkarana.webp",
+    "bio": null
+  },
+  {
+    "songwriter_name": "BENDAD THOMAS",
+    "primary_artist": "Ben & Vincent",
+    "associated_artists": [
+      "Ben & Vincent"
+    ],
+    "tagline": null,
+    "image_url": "assets/ben-and-vincent.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "CRISTIAN MONAK",
+    "primary_artist": "Cristian Monak",
+    "associated_artists": [
+      "Cristian Monak"
+    ],
+    "tagline": null,
+    "image_url": "assets/cristian-monak.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "ELIAS MIERBETH",
+    "primary_artist": "Ampermut",
+    "associated_artists": [
+      "Ampermut"
+    ],
+    "tagline": null,
+    "image_url": "assets/ampermut.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "GUSTAVO ALEJANDRO CROPANISE",
+    "primary_artist": "Guuse",
+    "associated_artists": [
+      "Guuse"
+    ],
+    "tagline": null,
+    "image_url": "assets/guuse.webp",
+    "bio": "Electronic music composer, songwriter & producer."
+  },
+  {
+    "songwriter_name": "JAIME ANDRES PADILLA RANGEL",
+    "primary_artist": "Andec James",
+    "associated_artists": [
+      "Andec James"
+    ],
+    "tagline": null,
+    "image_url": "assets/andec-james.webp",
+    "bio": null
+  },
+  {
+    "songwriter_name": "JOSE MANUEL GOMEZ ZAMORA",
+    "primary_artist": "G.Zamora",
+    "associated_artists": [
+      "G.Zamora"
+    ],
+    "tagline": null,
+    "image_url": "assets/gzamora.avif",
+    "bio": null
+  },
+  {
+    "songwriter_name": "JUAN MARTIN SALINAS",
+    "primary_artist": "Juanma Salinas",
+    "associated_artists": [
+      "Juanma Salinas",
+      "Bumanet"
+    ],
+    "tagline": null,
+    "image_url": "assets/juanma-salinas.webp",
+    "bio": null
+  },
+  {
+    "songwriter_name": "LEONARDO ORTEGON",
+    "primary_artist": "MIICHII",
+    "associated_artists": [
+      "MIICHII",
+      "Leonardo Ortegon"
+    ],
+    "tagline": null,
+    "image_url": "assets/miichii.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "LUIS COUNAGO LUQUE",
+    "primary_artist": "MoM",
+    "associated_artists": [
+      "MOM"
+    ],
+    "tagline": null,
+    "image_url": "assets/mom.jpeg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "MARCIO AUGUSTO VIEIRA PINTO",
+    "primary_artist": "Magupi",
+    "associated_artists": [
+      "Magupi",
+      "Kekonoma"
+    ],
+    "tagline": null,
+    "image_url": "assets/magupi.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "MARIO GIOVANNY APARICIO",
+    "primary_artist": "Giovanny Aparicio",
+    "associated_artists": [
+      "Giovanny Aparicio",
+      "GIOKA"
+    ],
+    "tagline": null,
+    "image_url": "assets/giovanny-aparicio.webp",
+    "bio": null
+  },
+  {
+    "songwriter_name": "NAZMIYE ELIF TANVERDI",
+    "primary_artist": "Elif",
+    "associated_artists": [],
+    "tagline": null,
+    "image_url": "assets/elif.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "RHEDA ANDRE BORGES",
+    "primary_artist": "Dr Parnassus",
+    "associated_artists": [
+      "Dr Parnassus",
+      "Rheda Andrews"
+    ],
+    "tagline": null,
+    "image_url": "assets/drparnassus.jpg",
+    "bio": null
+  },
+  {
+    "songwriter_name": "SANTIAGO GONZALEZ BADILLO",
+    "primary_artist": "Liminal MX",
+    "associated_artists": ["Liminal MX"],
+    "tagline": null,
+    "image_url": "assets/liminal-mx.avif",
+    "bio": null
+  },
+  {
+    "songwriter_name": "UNDERS",
+    "primary_artist": "UNDERS",
+    "associated_artists": ["UNDERS"],
+    "tagline": null,
+    "image_url": "assets/unders.jpg",
+    "bio": null
+  }
+]
+</script>
+<script>
+  // ✏️ SONGWRITERS: edit the <script id="songwriters"> JSON block above this script. One object each:
+  //   songwriter_name  legal name, shown if there's no primary_artist
+  //   primary_artist   the artist name shown on the card (one of associated_artists), or null to show songwriter_name
+  //   tagline          the one-liner under the photo, e.g. "Electronica" (null = "Songwriter")
+  //   image_url        a full URL or a file in assets/, e.g. "assets/guuse.jpg" (null = initials placeholder)
+  //   associated_artists, bio   kept for reference, not shown yet
+
+  // glass shapes are generated per writer, seeded by their name: every card is unique, and stays the same on reload
+  // every shape is built from random parts (proportions, tilt, ring spacing),
+  // so no two shapes repeat
+  const glassFor = name => {
+    let h = [...name].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 2654435761), 7);
+    const rand = () => ((h = Math.imul(h ^ (h >>> 15), 2246822507) ^ Math.imul(h ^ (h >>> 13), 3266489909)) >>> 0) / 2 ** 32;
+    return Array.from({ length: 1 }, () => {
+      const w = 75 + rand() * 40; // center sits off to one side (22–40% from the middle) and below the name: never dead-center, never mostly off the card
+      let st = `left:${Math.round(50 - w / 2 + (rand() < .5 ? -1 : 1) * (22 + rand() * 18))}%;top:${Math.round(rand() * 40 + 10)}%;width:${Math.round(w)}%;`
+        + `aspect-ratio:${(.7 + rand() * .8).toFixed(2)};border-radius:50%;rotate:${Math.round(rand() * 60 - 30)}deg;`;
+      // hand-drawn "topographic" rings: each ring's radius is bent by a few random sine waves,
+      // more wobbly near the center and calmer outside; drawn once as an SVG, so it costs nothing to animate
+      const waves = Array.from({ length: 3 }, (_, i) => [2 + i + Math.floor(rand() * 3), rand() * 6.28, .04 + rand() * .08]);
+      const ox = 35 + rand() * 30, oy = 35 + rand() * 30, n = 9 + Math.floor(rand() * 6);
+      const rings = Array.from({ length: n }, (_, k) => {
+        const R = (k + .6) * 75 / n, calm = 1 - k / n * .5;
+        const pts = Array.from({ length: 64 }, (_, j) => {
+          const t = j / 64 * 6.283;
+          const rr = R * (1 + waves.reduce((sum, [f, ph, amp]) => sum + Math.sin(f * t + ph + k * .35) * amp, 0) * calm);
+          return [ox + Math.cos(t) * rr, oy + Math.sin(t) * rr];
+        });
+        // smooth closed curve through the midpoints
+        const mid = j => pts[j].map((v, i) => ((v + pts[(j + 1) % 64][i]) / 2).toFixed(1));
+        return `M${mid(63)}` + pts.map((p, j) => `Q${p[0].toFixed(1)} ${p[1].toFixed(1)} ${mid(j)}`).join("") + "Z";
+      }).join("");
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='${rings}' fill='none' stroke='#fdf7f0' stroke-width='1.8'/></svg>`;
+      st += `background:url(data:image/svg+xml,${encodeURIComponent(svg).replace(/'/g, "%27")}) center/100% 100% no-repeat;`;
+      return [st, +((rand() < .5 ? -1 : 1) * (.4 + rand() * .6)).toFixed(2)];
+    });
+  };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const grid = document.getElementById("grid");
+  // runs after the script finishes, so the glass-shape code further down is ready (initShapes)
+  Promise.resolve().then(() => JSON.parse(document.getElementById("songwriters").textContent)).then(list => {
+    for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } // new order on every visit
+    const WRITERS = list.map(w => ({ name: w.primary_artist || w.songwriter_name, credits: w.tagline || "Songwriter", photo: w.image_url }));
+    grid.innerHTML = WRITERS.map((w, i) => `
+      <div class="writer">
+        <div class="in">
+          <h3${w.name.length > 18 ? ' class="long"' : ""}>${esc(w.name)}</h3>
+          <div class="img${w.photo ? "" : " ph"}" data-ph="${esc(w.name.split(/\s+/).map(x => x[0]).join("").slice(0, 2).toUpperCase())}">${w.photo ? `<img src="${esc(w.photo)}" alt="${esc(w.name)}" loading="lazy" decoding="async">` : ""}</div>
+          <p>${esc(w.credits)}</p>
+        </div>
+        ${glassFor(w.name).map(([style, depth]) =>
+          `<span class="glass" data-depth="${depth}" style="${style}"></span>`).join("")}
+      </div>`).join("");
+    document.querySelectorAll(".writer img").forEach(im => { const ok = () => im.classList.add("ok"); im.complete && im.naturalWidth ? ok() : im.addEventListener("load", ok); });
+  document.querySelectorAll(".writer img").forEach(im => im.addEventListener("error", () => { im.parentNode.classList.add("broken"); im.remove(); }));
+    initShapes(); wake();
+  }).catch(() => { grid.innerHTML = '<p>Songwriters could not be loaded.</p>'; });
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const inquiry = document.getElementById("inquiry"), inquiryNote = document.getElementById("inquiry-note");
+  inquiry?.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!inquiry.reportValidity()) return;
+    const btn = inquiry.querySelector(".submit");
+    inquiryNote.textContent = "";
+    inquiryNote.className = "note";
+    btn.disabled = true;
+    try {
+      const data = Object.fromEntries(new FormData(inquiry).entries());
+      const res = await fetch(inquiry.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("send failed");
+      inquiry.reset();
+      inquiryNote.textContent = "Thanks — we’ll be in touch soon.";
+      inquiryNote.classList.add("ok");
+    } catch {
+      inquiryNote.textContent = "Something went wrong. Email us at hello@wayupublishing.com.";
+      inquiryNote.classList.add("err");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // Echo: N outlined copies behind the solid logo, each lagging further behind the mouse.
+  const mark = document.getElementById("mark");
+  const base = mark.querySelector(".layer");
+  const pub = base.querySelector(".pub"), svg = base.querySelector("svg");
+  const lefts = [...pub.children].map(el => el.getBBox().x); // each letter's left edge, in logo units
+  const N = 6;
+  const layers = [];
+  for (let i = N; i > 0; i--) {
+    const c = base.cloneNode(true);
+    c.setAttribute("aria-hidden", "true");
+    c.style.opacity = 1 - i / (N + 1);
+    mark.insertBefore(c, base);
+    layers.push({ el: c, k: i, x: 0, y: 0 });
+  }
+  let mx = 0, my = 0, moved = false;
+  addEventListener("pointermove", e => {
+    moved = true;
+    mx = e.clientX / innerWidth - .5;
+    my = e.clientY / innerHeight - .5;
+  });
+
+  // menu: open/close the full-screen panel; links close it, Esc closes it, page can't scroll behind it
+  const menu = document.getElementById("menu"), burger = document.querySelector(".burger");
+  const setMenu = o => { menu.classList.toggle("open", o); burger.setAttribute("aria-expanded", o); document.documentElement.style.overflow = o ? "hidden" : ""; (o ? menu.querySelector(".x") : burger).focus(); };
+  // static copy of the docked lockup (same math as the scroll animation at its end state)
+  let mlogo;
+  const dockLogo = () => {
+    if (!mlogo) {
+      mlogo = document.createElement("div"); mlogo.id = "mlogo"; mlogo.setAttribute("aria-hidden", "true");
+      mlogo.append(document.querySelector("#mark > .layer:last-child").cloneNode(true)); menu.prepend(mlogo);
+    }
+    const vw = innerWidth, bigW = Math.min(vw * (vw <= 800 ? .62 : .8), 1000);
+    mlogo.style.width = bigW + "px";
+    const sv = mlogo.querySelector("svg"), pb = mlogo.querySelector(".pub");
+    const svgH = sv.clientHeight, u = pb.clientWidth / 249.27;
+    [...pb.children].forEach(el => el.setAttribute("transform", `translate(107.7 ${-(svgH + parseFloat(getComputedStyle(pb).marginTop)) / u}) scale(${249.27 / 101.95})`));
+    const HW = Math.min(80, (vw * .92 - document.querySelector("nav").offsetWidth - 16) / (356.97 / 101.95)), s = Math.min(HW / bigW, vw * .92 / (bigW * 356.97 / 101.95));
+    mlogo.style.transform = `translate(${vw * .04}px, ${36 + parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar")) - svgH * s / 2}px) scale(${s})`;
+  };
+  addEventListener("resize", () => menu.classList.contains("open") && dockLogo());
+  burger.addEventListener("click", () => { dockLogo(); setMenu(true); });
+  menu.querySelector(".x").addEventListener("click", () => setMenu(false));
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  addEventListener("keydown", e => { if (e.key === "Escape" && menu.classList.contains("open")) setMenu(false); });
+  const nav = document.querySelector("nav");
+  const letters = lefts.map((_, i) => [...mark.querySelectorAll(`.pub > :nth-child(${i + 1})`)]);
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const waves = document.getElementById("waves"), wctx = waves.getContext("2d");
+  let energy = 0, lastY = scrollY, lastMx = 0, blast = 0;
+  // echo blast: tapping the big hero logo sends the echoes flying outward and spikes the sound waves
+  mark.addEventListener("click", e => {
+    if (scrollY > innerHeight * .3) return; // docked in the header it's a normal home link
+    e.preventDefault();
+    blast = 1; energy += 160;
+  });
+  const hero = document.querySelector(".hero");
+  const BAR = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar"));
+  // main color comes from CSS --pink; the canvas, browser theme color and favicon follow it
+  const PINK = getComputedStyle(document.documentElement).getPropertyValue("--pink").trim();
+  document.querySelector("meta[name=theme-color]").content = PINK;
+  const tick = () => {
+    const vw = innerWidth, vh = innerHeight;
+    const bigW = Math.min(vw * (vw <= 800 ? .62 : .8), 1000);
+    mark.style.width = bigW + "px";
+    const bigH = mark.offsetHeight;
+    const hh = hero.offsetHeight, top = vw <= 800 ? BAR + 72 : 0; // phones: hero is short, logo centers below the header
+    // p: 0 = big in hero, 1 = docked as header logo
+    const p = Math.min(scrollY / (hh * .8), 1), e = p * p * (3 - 2 * p);
+
+    // docked lockup = the original logo file: PUBLISHING at the same scale as WAYU, starting at x=107.7
+    const svgW = svg.clientWidth, svgH = svg.clientHeight;
+    const PUB_S = 249.27 / 101.95; // WAYU px-per-unit ÷ PUBLISHING px-per-unit in the hero
+    const lineW = svgW * 356.97 / 101.95; // natural width of the one-line lockup
+
+    // docked WAYU width: up to 80px, smaller if the full lockup would run into the nav
+    const HEADER_W = Math.min(80, (vw * .92 - nav.offsetWidth - 16) / (356.97 / 101.95));
+    // shrink so the lockup always fits on screen while it morphs, ending at HEADER_W for WAYU
+    const s = Math.min(lerp(1, HEADER_W / bigW, e), vw * .92 / lerp(bigW, lineW, e));
+    const x = lerp((vw - bigW * s) / 2, vw * .04, e);
+    const y = lerp(top + (hh - top - bigH) / 2, 36 + BAR - svgH * s / 2, e); // docked: centered on the 72px header, level with the nav
+    mark.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+    mark.style.setProperty("--e", e);
+
+    // staggered letters: each takes its own slice of the scroll (G leaves first so they never pile up); within it, slide right first, then rise
+    // transforms are in PUBLISHING's own units: docked, X maps to PUB_S*X + 107.7 and lifts by the hero gap
+    const n = letters.length, u = pub.clientWidth / 249.27, dyEnd = -(svgH + parseFloat(getComputedStyle(pub).marginTop)) / u; // SVGs have no offsetTop
+    letters.forEach((els, i) => {
+      let q = Math.min(Math.max((e - (n - 1 - i) * .03) / (1 - (n - 1) * .03), 0), 1);
+      // two beats so PUBLISHING never touches WAYU: first slide sideways along the line below WAYU (past its right edge), only then rise
+      const ss = v => (v = Math.min(Math.max(v, 0), 1)) * v * (3 - 2 * v), qx = ss(q / .6), qy = ss((q - .6) / .4);
+      const lx = lefts[i], sq = lerp(1, PUB_S, qx);
+      const tx = lerp(lx, PUB_S * lx + 107.7, qx) - sq * lx;
+      const ty = qy * dyEnd;
+      for (const el of els) el.setAttribute("transform", `translate(${tx} ${ty}) scale(${sq})`);
+    });
+
+    // sound waves: echoing sine lines that swell with scroll speed and mouse movement; as the logo docks they rise
+    // and settle into the header's bottom border, still wiggling a little when you scroll
+    blast *= .955;
+    energy = energy * .94 + Math.abs(scrollY - lastY) * .4 + Math.abs(mx - lastMx) * 60;
+    lastY = scrollY; lastMx = mx;
+    const dpr = devicePixelRatio || 1, W = waves.clientWidth, H = waves.clientHeight;
+    if (waves.width !== W * dpr) { waves.width = W * dpr; waves.height = H * dpr; }
+    wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    wctx.clearRect(0, 0, W, H); wctx.globalAlpha = 1;
+    {
+      const amp = lerp(10 + Math.min(energy, 90), 1 + Math.min(energy, 30) * .15, e), baseY = lerp(hh * (vw <= 800 ? .92 : .82), 72 + BAR, e), cx = (moved ? mx + .5 : .5) * W;
+      for (let k = 0; k < 5; k++) {
+        wctx.beginPath();
+        if (!k) wctx.moveTo(0, 0);
+        for (let px = 0; px <= W + 6; px += 6) {
+          const env = Math.exp(-(((px - cx) / (W * .35)) ** 2)); // loudest near the cursor
+          const py = baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8) + k * .7) * amp * env * (1 - k * .15);
+          wctx.lineTo(px, py);
+        }
+        if (!k) { wctx.save(); wctx.lineTo(W + 6, 0); wctx.closePath(); wctx.fillStyle = "#fdf7f0"; wctx.fill(); wctx.restore(); wctx.beginPath(); for (let px = 0; px <= W + 6; px += 6) wctx.lineTo(px, baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8)) * amp * Math.exp(-(((px - cx) / (W * .35)) ** 2))); } // header backdrop follows the wave, so no gap shows
+        wctx.strokeStyle = PINK; wctx.globalAlpha = (1 - k * .18) * (k ? 1 - e : 1); // main line stays as the border
+        wctx.lineWidth = k ? 1 : 2;
+        wctx.stroke();
+      }
+    }
+
+    // menu footer rule: the hero's wave line again, in cream, swelling with the mouse
+    if (menu.classList.contains("open")) {
+      const fw = menu.querySelector(".fwave"), fc = fw.getContext("2d"), FW = fw.clientWidth, FH = fw.clientHeight;
+      if (fw.width !== FW * dpr) { fw.width = FW * dpr; fw.height = FH * dpr; }
+      fc.setTransform(dpr, 0, 0, dpr, 0, 0); fc.clearRect(0, 0, FW, FH);
+      const famp = 2 + Math.min(energy, 90) * .3, fcx = (moved ? mx + .5 : .5) * FW;
+      for (let k = 0; k < 5; k++) {
+        fc.beginPath();
+        for (let px = 0; px <= FW + 6; px += 6) fc.lineTo(px, FH / 2 + Math.sin(px * .012 + (scrollY * .02 + mx * 8) + k * .7) * famp * Math.exp(-(((px - fcx) / (FW * .35)) ** 2)) * (1 - k * .15));
+        fc.strokeStyle = "#fdf7f0"; fc.globalAlpha = 1 - k * .18; fc.lineWidth = k ? 1 : 2; fc.stroke();
+      }
+    }
+
+    // no idle motion: echoes only follow the pointer; they collapse as it docks
+    const ix = moved ? mx : 0, iy = moved ? my : 0;
+    base.style.transform = `scale(${1 - Math.sin(blast * Math.PI) * .04})`; // logo itself recoils slightly
+    for (const l of layers) {
+      const ease = .06 + .02 * (N - l.k); // further layers follow slower
+      l.x += (ix * l.k * 40 * (1 - e) - l.x) * ease;
+      l.y += (iy * l.k * 30 * (1 - e) - l.y) * ease;
+      l.el.style.transform = `translate(${l.x / s}px, ${l.y / s}px) scale(${1 + blast * l.k * .14})`;
+      l.el.style.opacity = (1 - l.k / (N + 1)) * (1 - blast * .5) + blast * .5 * (1 - l.k / (N + 2));
+    }
+    loop.hero = idle() ? 0 : requestAnimationFrame(tick);
+  };
+  // glass shapes: each card has its own idle rhythm and reacts to the cursor relative to itself;
+  // every shape leaves a trail of outlined echoes that lag behind it
+  let cx = -1e4, cy = -1e4;
+  addEventListener("pointermove", e => { cx = e.clientX; cy = e.clientY; });
+  const ECHOES = 3;
+  let shapes = [];
+  const initShapes = () => shapes = [...document.querySelectorAll(".glass")].map(g => {
+    const ghosts = [];
+    for (let k = 1; k <= ECHOES; k++) {
+      const c = g.cloneNode();
+      c.classList.add("ghost");
+      c.style.opacity = .6 - k * .17;
+      g.before(c);
+      ghosts.push({ el: c, x: 0, y: 0, r: 0 });
+    }
+    return { el: g, card: g.parentElement, d: +g.dataset.depth, x: 0, y: 0, r: 0, ghosts };
+  });
+  const float = () => {
+    for (const s of shapes) {
+      const r = s.card.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) continue;
+            // cursor relative to this card's center, -1..1; only counts while hovering this card
+      const over = cx > r.left && cx < r.right && cy > r.top && cy < r.bottom;
+      const lx = over ? (cx - r.left - r.width / 2) / r.width * 2 : 0;
+      const ly = over ? (cy - r.top - r.height / 2) / r.height * 2 : 0;
+      const sy = (r.top + r.height / 2 - innerHeight / 2) * .3; // distance from screen center drives scroll motion
+      let tx = lx * 50 * s.d;
+      let ty = (ly * 50 + sy) * s.d;
+      // hovering the card: push each shape out toward the nearest edge so the name and photo are clear;
+      // the card's overflow clips them, leaving slivers peeking in from the sides
+      if (over) {
+        const ox = s.el.offsetLeft + s.el.offsetWidth / 2 - r.width / 2, oy = s.el.offsetTop + s.el.offsetHeight / 2 - r.height / 2;
+        const len = Math.hypot(ox, oy) || 1, push = Math.max(r.width, r.height) * .45 + s.el.offsetWidth * .12; // far enough that only an edge sliver stays
+        tx = ox / len * push - (lx * 20); ty = oy / len * push;
+      }
+      const tr = (lx * 25 + sy * .15) * s.d; // shapes also spin as you scroll
+      s.x += (tx - s.x) * .12; s.y += (ty - s.y) * .12; s.r += (tr - s.r) * .12;
+      s.el.style.transform = `translate(${s.x}px, ${s.y}px) rotate(${s.r}deg)`;
+      let prev = s;
+      for (const g of s.ghosts) { // each echo chases the one in front of it
+        g.x += (prev.x - g.x) * .18; g.y += (prev.y - g.y) * .18; g.r += (prev.r - g.r) * .18;
+        g.el.style.transform = `translate(${g.x}px, ${g.y}px) rotate(${g.r}deg)`;
+        prev = g;
+      }
+    }
+    loop.float = idle() ? 0 : requestAnimationFrame(float);
+  };
+  // both loops sleep 2s after the last input (all motion eases toward input-driven targets, so it has settled by then) and wake on the next one
+  const loop = { hero: 0, float: 0, last: performance.now() };
+  const idle = () => performance.now() - loop.last > 2000;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches; // reduced motion: glass shapes are hidden, skip their loop
+  const wake = () => {
+    loop.last = performance.now();
+    if (!loop.hero) loop.hero = requestAnimationFrame(tick);
+    if (!loop.float && !calm) loop.float = requestAnimationFrame(float);
+  };
+  for (const ev of ["pointermove", "scroll", "resize", "click"]) addEventListener(ev, wake, { passive: true });
+  wake();
+
+  // funnel arrows: they leave one point and draw one at a time as you scroll (progress from where the source tile sits in the viewport); its card appears when the arrow lands
+  (() => {
+    const src = document.querySelector(".funnel-src"), cards = [...document.querySelectorAll(".fall")];
+    if (!src || !cards.length) return;
+    const bento = src.parentElement, NS = "http://www.w3.org/2000/svg";
+    const phone = matchMedia("(max-width: 800px)"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "funnel"); svg.setAttribute("aria-hidden", "true");
+    const arrows = cards.map(() => {
+      const [line, head] = [0, 0].map(() => document.createElementNS(NS, "path"));
+      line.setAttribute("pathLength", 1); line.style.strokeDasharray = 1;
+      svg.append(line, head);
+      return { line, head };
+    });
+    bento.prepend(svg);
+    const place = () => {
+      cards.forEach((c, i) => {
+        const x0 = src.offsetLeft + src.offsetWidth / 2, y0 = src.offsetTop + src.offsetHeight + 6;
+        if (phone.matches) { // phones: one rail down the left, each arrow turns right into its card
+          const rx = c.offsetLeft - 22, ym = c.offsetTop + c.offsetHeight / 2, xe = c.offsetLeft - 3, ys = src.offsetTop + src.offsetHeight + 4;
+          const d = `M${rx} ${ys}L${rx} ${ym - 12}Q${rx} ${ym} ${rx + 12} ${ym}L${xe} ${ym}`;
+          arrows[i].line.setAttribute("d", d); arrows[i].len = arrows[i].line.getTotalLength();
+          arrows[i].head.setAttribute("d", `M${xe - 11} ${ym - 9}L${xe} ${ym}L${xe - 11} ${ym + 9}`);
+          return;
+        }
+        const x1 = c.offsetLeft + c.offsetWidth / 2, y1 = c.offsetTop - 8, yb = y1 - 34; // straight vertical run-in so the head sits square on the curve
+        const d = `M${x0} ${y0}C${x0} ${y0 + (yb - y0) * .9} ${x1} ${y0 + (yb - y0) * .1} ${x1} ${yb}L${x1} ${y1 - 4}`;
+        arrows[i].line.setAttribute("d", d);
+        arrows[i].head.setAttribute("d", `M${x1 - 12} ${y1 - 18}L${x1} ${y1 - 3}L${x1 + 12} ${y1 - 18}`);
+      });
+    };
+    const update = () => {
+      const vh = innerHeight, b = src.getBoundingClientRect().bottom;
+      cards.forEach((c, i) => {
+        const drawn = (vh * .85 - b) * .9; // phones: the line unrolls at a steady pace along the rail, so each card appears as it arrives
+        const p = still ? 1 : Math.min(Math.max(phone.matches ? drawn / (arrows[i].len || 1) : (vh * .85 - b) / 170 - i, 0), 1);
+        arrows[i].line.style.strokeDashoffset = 1 - p;
+        arrows[i].head.style.opacity = p >= 1 ? 1 : 0;
+        c.classList.add("arm");
+        c.classList.toggle("in", p >= 1);
+      });
+    };
+    place(); update();
+    addEventListener("resize", () => { place(); update(); });
+    addEventListener("scroll", update, { passive: true });
+    document.fonts && document.fonts.ready.then(() => { place(); update(); });
+  })();
+
+  // how we back you: the cards reveal with scroll, one after another; when a column is fully revealed the pink slab moves on to the next head
+  (() => {
+    const sg = document.querySelector(".sg"), hl = sg && sg.querySelector(".hl"), cols = sg ? [...sg.querySelectorAll(".col")] : [];
+    if (!hl || !cols.length) return;
+    const cards = [...sg.querySelectorAll(".card")], reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) cards.forEach(c => c.classList.add("arm"));
+    // desktop plays one script: head, its cards, next head, its cards...
+    const seq = cols.flatMap((c, k) => [{ col: k }, ...[...c.querySelectorAll(".card")].map(card => ({ card }))]);
+    let cur = -1, hop;
+    const place = i => {
+      cols.forEach((c, k) => c.classList.toggle("on", k === i));
+      const c = cols[i], h = c.querySelector(".head");
+      hl.style.width = c.offsetWidth + "px"; hl.style.height = h.offsetHeight + 2 + "px";
+      hl.style.transform = `translate(${c.offsetLeft}px, ${c.offsetTop}px)`;
+    };
+    const pick = () => {
+      const r = sg.getBoundingClientRect(), vh = innerHeight;
+      let i = 0;
+      if (matchMedia("(max-width: 800px)").matches) { // stacked: scrolling reveals each card as it arrives; the slab follows the column whose head last crossed the middle
+        cols.forEach((c, k) => { if (c.getBoundingClientRect().top < vh * .8) i = k; });
+        cards.forEach(c => c.classList.toggle("in", reduce || c.getBoundingClientRect().top < vh * .85));
+      } else {
+        const p = (vh * .9 - r.top) / (vh * 1.0); // starts as the grid enters; longer span keeps the head/card steps from racing
+        const n = Math.min(seq.length, Math.max(1, Math.floor(p * seq.length) + 1));
+        const shown = new Set();
+        seq.forEach((e, k) => { if (k < n) { if ("col" in e) i = e.col; else shown.add(e.card); } });
+        cards.forEach(c => c.classList.toggle("in", reduce || shown.has(c)));
+      }
+      if (i !== cur) {
+        const first = cur < 0; cur = i;
+        if (first || !matchMedia("(max-width: 800px)").matches) place(i);
+        else { // stacked columns are far apart, so the slab fades out and back in on the new head instead of travelling down
+          hl.classList.add("hop");
+          clearTimeout(hop); hop = setTimeout(() => { place(cur); hl.classList.remove("hop"); }, 220);
+        }
+      }
+    };
+    addEventListener("scroll", pick, { passive: true });
+    addEventListener("resize", () => { cur = -1; pick(); });
+    document.fonts && document.fonts.ready.then(() => { cur = -1; pick(); });
+    pick();
+  })();
+
+  // values banner: the phrase is written once; JS repeats it until one half is wider than the screen and doubles that, so the wrap at half its width is seamless. It slides only while you scroll
+  (() => {
+    const bar = document.querySelector(".marquee"), span = bar.querySelector("span"), phrase = span.textContent.trim() + "\u00A0"; // non-breaking so the trailing gap counts toward the width
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let one = 0;
+    const fill = () => {
+      span.textContent = phrase;
+      one = span.offsetWidth;
+      const half = phrase.repeat(Math.ceil(bar.clientWidth / one) + 1);
+      span.textContent = half + half;
+    };
+    const move = () => { // starts with the first word inset from the left edge and, over the one screen it takes to cross, drifts far enough that the whole phrase has been on screen once
+      const h = span.offsetWidth / 2, inset = innerWidth * .09, drift = Math.max(inset, one - bar.clientWidth + inset);
+      const raw = Math.min(1, Math.max(0, (innerHeight - bar.getBoundingClientRect().top) / innerHeight)) * drift;
+      span.style.transform = `translateX(${-((raw + h - inset) % h)}px)`;
+    };
+    const redo = () => { fill(); if (!reduce) move(); };
+    document.fonts && document.fonts.ready.then(redo);
+    addEventListener("resize", redo); redo();
+    if (!reduce) addEventListener("scroll", move, { passive: true });
+  })();
+</script>
+</body>
+</html>
