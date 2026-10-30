@@ -20,6 +20,7 @@
 <meta name="theme-color" content="#ff2e88">
 <link rel="icon" href="assets/favicon.png" sizes="270x270" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
+<script>/* hold the page back until the fonts are in and the logo is placed, so a refresh doesn't show text reflowing and the logo jumping; 2.5s cap if fonts are slow */document.documentElement.classList.add("fonts-wait");setTimeout(function(){document.documentElement.classList.remove("fonts-wait")},2500)</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"WAYU Publishing","url":"https://wayupublishing.com/","email":"hello@wayupublishing.com","sameAs":["https://wayurecords.com"],"founder":[{"@type":"Person","name":"Julian Castañeda"},{"@type":"Person","name":"Leonardo Ortegon"}]}
 </script>
@@ -87,6 +88,8 @@
   @media (max-width: 800px) { .hero { height: 40svh; min-height: 330px; } .hero small { display: none; } .about > p { font-size: 20px; } section.about { padding-block: 32px; } .about h2 { margin-bottom: 3vh; } }
   .hero small { position: absolute; bottom: 5vh; font-weight: 600; letter-spacing: .2em; }
 
+  body { transition: opacity .3s; }
+  html.fonts-wait body { opacity: 0; }
   section { padding: 14vh 4vw; }
   h2 { line-height: .92; font-size: clamp(56px, 12vw, 180px); margin-bottom: 6vh; }
   @media (max-width: 800px) { section { padding-block: 44px; } h2 { margin-bottom: 24px; } }
@@ -794,7 +797,7 @@
   const base = mark.querySelector(".layer");
   const pub = base.querySelector(".pub"), svg = base.querySelector("svg");
   const lefts = [...pub.children].map(el => el.getBBox().x); // each letter's left edge, in logo units
-  const N = 6;
+  const N = matchMedia("(pointer: coarse)").matches ? 2 : 6; // touch screens have no pointer to trail, so only the tap-blast uses echoes: fewer copies, far less to redraw
   const layers = [];
   for (let i = N; i > 0; i--) {
     const c = base.cloneNode(true);
@@ -849,32 +852,43 @@
   // main color comes from CSS --pink; the canvas, browser theme color and favicon follow it
   const PINK = getComputedStyle(document.documentElement).getPropertyValue("--pink").trim();
   document.querySelector("meta[name=theme-color]").content = PINK;
-  const tick = () => {
-    const vw = innerWidth, vh = innerHeight;
+  // measuring forces layout, so it happens once (and again on resize / fonts), not on every scroll frame
+  let geo = null;
+  const PUB_S = 249.27 / 101.95; // WAYU px-per-unit ÷ PUBLISHING px-per-unit in the hero
+  const measure = () => {
+    const vw = innerWidth;
     const bigW = Math.min(vw * (vw <= 800 ? .62 : .8), 1000);
     mark.style.width = bigW + "px";
-    const bigH = mark.offsetHeight;
-    const hh = hero.offsetHeight, top = vw <= 800 ? BAR + 72 : 0; // phones: hero is short, logo centers below the header
+    const svgW = svg.clientWidth, svgH = svg.clientHeight;
+    return {
+      vw, bigW, bigH: mark.offsetHeight, hh: hero.offsetHeight, top: vw <= 800 ? BAR + 72 : 0, // phones: hero is short, logo centers below the header
+      svgH, lineW: svgW * 356.97 / 101.95, // natural width of the one-line lockup
+      // docked WAYU width: up to 80px, smaller if the full lockup would run into the nav
+      HEADER_W: Math.min(80, (vw * .92 - nav.offsetWidth - 16) / (356.97 / 101.95)),
+      dyEnd: -(svgH + parseFloat(getComputedStyle(pub).marginTop)) / (pub.clientWidth / 249.27), // SVGs have no offsetTop
+    };
+  };
+  addEventListener("resize", () => geo = null);
+  document.fonts && document.fonts.ready.then(() => geo = null);
+  let lastMark = "", lastE = -1; const lastLetter = [];
+  const tick = () => {
+    const vh = innerHeight;
+    geo = geo || measure();
+    const { vw, bigW, bigH, hh, top, svgH, lineW, HEADER_W, dyEnd } = geo;
     // p: 0 = big in hero, 1 = docked as header logo
     const p = Math.min(scrollY / (hh * .8), 1), e = p * p * (3 - 2 * p);
 
-    // docked lockup = the original logo file: PUBLISHING at the same scale as WAYU, starting at x=107.7
-    const svgW = svg.clientWidth, svgH = svg.clientHeight;
-    const PUB_S = 249.27 / 101.95; // WAYU px-per-unit ÷ PUBLISHING px-per-unit in the hero
-    const lineW = svgW * 356.97 / 101.95; // natural width of the one-line lockup
-
-    // docked WAYU width: up to 80px, smaller if the full lockup would run into the nav
-    const HEADER_W = Math.min(80, (vw * .92 - nav.offsetWidth - 16) / (356.97 / 101.95));
     // shrink so the lockup always fits on screen while it morphs, ending at HEADER_W for WAYU
     const s = Math.min(lerp(1, HEADER_W / bigW, e), vw * .92 / lerp(bigW, lineW, e));
     const x = lerp((vw - bigW * s) / 2, vw * .04, e);
     const y = lerp(top + (hh - top - bigH) / 2, 36 + BAR - svgH * s / 2, e); // docked: centered on the 72px header, level with the nav
-    mark.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
-    mark.style.setProperty("--e", e);
+    const mt = `translate(${x}px, ${y}px) scale(${s})`;
+    if (mt !== lastMark) { lastMark = mt; mark.style.transform = mt; } // untouched frames (docked, or standing still) write nothing
+    if (e !== lastE) { lastE = e; mark.style.setProperty("--e", e); }
 
     // staggered letters: each takes its own slice of the scroll (G leaves first so they never pile up); within it, slide right first, then rise
     // transforms are in PUBLISHING's own units: docked, X maps to PUB_S*X + 107.7 and lifts by the hero gap
-    const n = letters.length, u = pub.clientWidth / 249.27, dyEnd = -(svgH + parseFloat(getComputedStyle(pub).marginTop)) / u; // SVGs have no offsetTop
+    const n = letters.length;
     letters.forEach((els, i) => {
       let q = Math.min(Math.max((e - (n - 1 - i) * .03) / (1 - (n - 1) * .03), 0), 1);
       // two beats so PUBLISHING never touches WAYU: first slide sideways along the line below WAYU (past its right edge), only then rise
@@ -882,7 +896,8 @@
       const lx = lefts[i], sq = lerp(1, PUB_S, qx);
       const tx = lerp(lx, PUB_S * lx + 107.7, qx) - sq * lx;
       const ty = qy * dyEnd;
-      for (const el of els) el.setAttribute("transform", `translate(${tx} ${ty}) scale(${sq})`);
+      const t = `translate(${tx} ${ty}) scale(${sq})`;
+      if (lastLetter[i] !== t) { lastLetter[i] = t; for (const el of els) el.setAttribute("transform", t); } // SVG attribute writes re-rasterize, so only when it moved
     });
 
     // sound waves: echoing sine lines that swell with scroll speed and mouse movement; as the logo docks they rise
@@ -890,21 +905,23 @@
     blast *= .955;
     energy = energy * .94 + Math.abs(scrollY - lastY) * .4 + Math.abs(mx - lastMx) * 60;
     lastY = scrollY; lastMx = mx;
-    const dpr = devicePixelRatio || 1, W = waves.clientWidth, H = waves.clientHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 2), W = waves.clientWidth, H = waves.clientHeight; // a 3x phone screen would be 9x the pixels to clear and fill every frame
     if (waves.width !== W * dpr) { waves.width = W * dpr; waves.height = H * dpr; }
     wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     wctx.clearRect(0, 0, W, H); wctx.globalAlpha = 1;
     {
       const amp = lerp(10 + Math.min(energy, 90), 1 + Math.min(energy, 30) * .15, e), baseY = lerp(hh * (vw <= 800 ? .92 : .82), 72 + BAR, e), cx = (moved ? mx + .5 : .5) * W;
+      const stp = vw <= 800 ? 10 : 6; // fewer points per line on phones
       for (let k = 0; k < 5; k++) {
+        if (k && e >= 1) break; // docked: the echo lines are fully faded out, only the border line is drawn
         wctx.beginPath();
         if (!k) wctx.moveTo(0, 0);
-        for (let px = 0; px <= W + 6; px += 6) {
+        for (let px = 0; px <= W + 6; px += stp) {
           const env = Math.exp(-(((px - cx) / (W * .35)) ** 2)); // loudest near the cursor
           const py = baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8) + k * .7) * amp * env * (1 - k * .15);
           wctx.lineTo(px, py);
         }
-        if (!k) { wctx.save(); wctx.lineTo(W + 6, 0); wctx.closePath(); wctx.fillStyle = "#fdf7f0"; wctx.fill(); wctx.restore(); wctx.beginPath(); for (let px = 0; px <= W + 6; px += 6) wctx.lineTo(px, baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8)) * amp * Math.exp(-(((px - cx) / (W * .35)) ** 2))); } // header backdrop follows the wave, so no gap shows
+        if (!k) { wctx.save(); wctx.lineTo(W + 6, 0); wctx.closePath(); wctx.fillStyle = "#fdf7f0"; wctx.fill(); wctx.restore(); wctx.beginPath(); for (let px = 0; px <= W + 6; px += stp) wctx.lineTo(px, baseY + Math.sin(px * .012 + (scrollY * .02 + mx * 8)) * amp * Math.exp(-(((px - cx) / (W * .35)) ** 2))); } // header backdrop follows the wave, so no gap shows
         wctx.strokeStyle = PINK; wctx.globalAlpha = (1 - k * .18) * (k ? 1 - e : 1); // main line stays as the border
         wctx.lineWidth = k ? 1 : 2;
         wctx.stroke();
@@ -931,8 +948,9 @@
       const ease = .06 + .02 * (N - l.k); // further layers follow slower
       l.x += (ix * l.k * 40 * (1 - e) - l.x) * ease;
       l.y += (iy * l.k * 30 * (1 - e) - l.y) * ease;
-      l.el.style.transform = `translate(${l.x / s}px, ${l.y / s}px) scale(${1 + blast * l.k * .14})`;
-      l.el.style.opacity = (1 - l.k / (N + 1)) * (1 - blast * .5) + blast * .5 * (1 - l.k / (N + 2));
+      const lt = `translate(${l.x / s}px, ${l.y / s}px) scale(${1 + blast * l.k * .14})`, lo = (1 - l.k / (N + 1)) * (1 - blast * .5) + blast * .5 * (1 - l.k / (N + 2));
+      if (l.t !== lt) { l.t = lt; l.el.style.transform = lt; }
+      if (l.o !== lo) { l.o = lo; l.el.style.opacity = lo; }
     }
     loop.hero = idle() ? 0 : requestAnimationFrame(tick);
   };
@@ -1008,6 +1026,8 @@
   };
   for (const ev of ["pointermove", "scroll", "resize", "click"]) addEventListener(ev, wake, { passive: true });
   wake();
+  // reveal once fonts are in and the logo has been drawn at least once (two frames), so nothing visibly jumps into place
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { wake(); requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove("fonts-wait"))); });
 
   // funnel arrows: they leave one point and draw one at a time as you scroll (progress from where the source tile sits in the viewport); its card appears when the arrow lands
   (() => {
