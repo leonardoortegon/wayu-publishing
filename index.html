@@ -20,20 +20,26 @@
 <meta name="theme-color" content="#ff2e88">
 <link rel="icon" href="assets/favicon.png" sizes="270x270" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
-<script>/* hold the page back until the fonts are in and the logo is placed, so a refresh doesn't show text reflowing and the logo jumping; 2.5s cap if fonts are slow */document.documentElement.classList.add("fonts-wait");setTimeout(function(){document.documentElement.classList.remove("fonts-wait")},2500)</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"WAYU Publishing","url":"https://wayupublishing.com/","email":"hello@wayupublishing.com","sameAs":["https://wayurecords.com"],"founder":[{"@type":"Person","name":"Julian Castañeda"},{"@type":"Person","name":"Leonardo Ortegon"}]}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   :root { --bar: 34px; --pink: #ff2e88; /* MAIN COLOR: change only this; every other pink is mixed from it (#c8005a passes WCAG AA text contrast) */ --cream: #fdf7f0; --ink: #1a1016; }
   * { box-sizing: border-box; margin: 0; }
   html { scroll-behavior: smooth; overflow-x: clip; }
-  body { background: var(--cream); color: var(--pink); font: 18px/1.5 Inter, system-ui, sans-serif; overflow-x: hidden; }
+  body { background: var(--cream); color: var(--pink); font: 18px/1.5 Inter, "Inter Fallback", system-ui, sans-serif; overflow-x: hidden; }
   a { color: inherit; }
-  .display { font-family: Anton, Impact, sans-serif; text-transform: uppercase; line-height: .85; letter-spacing: -.01em; }
+  /* self-hosted (latin subset), preloaded in <head>: no third-party round trip, cached with the site */
+  @font-face { font-family: Anton; font-weight: 400; font-display: swap; src: url(assets/fonts/anton-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: Anton; font-weight: 400; font-display: swap; src: url(assets/fonts/anton-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  @font-face { font-family: Inter; font-weight: 100 900; font-display: swap; src: url(assets/fonts/inter-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: Inter; font-weight: 100 900; font-display: swap; src: url(assets/fonts/inter-latin-ext.woff2) format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; } /* latin-ext only downloads if a page character needs it */
+  /* while the real fonts load, local fonts stand in, scaled to the same widths and line metrics so the swap doesn't move the layout */
+  @font-face { font-family: "Anton Fallback"; src: local("Impact"), local("Arial Narrow Bold"); size-adjust: 98.11%; ascent-override: 119.89%; descent-override: 33.54%; line-gap-override: 0%; }
+  @font-face { font-family: "Inter Fallback"; src: local("Arial"), local("Helvetica"); size-adjust: 103.7%; ascent-override: 93.42%; descent-override: 23.26%; line-gap-override: 0%; }
+  .display { font-family: Anton, "Anton Fallback", Impact, sans-serif; text-transform: uppercase; line-height: .85; letter-spacing: -.01em; }
 
   /* sister-site switcher: fixed above the header; --bar offsets the header and the docked logo below it */
   .sites { position: fixed; inset: 0 0 auto; z-index: 12; height: var(--bar); display: flex; justify-content: center; align-items: center; gap: 22px; background: var(--pink); color: var(--cream); font-size: 15px; font-weight: 600; padding-top: env(safe-area-inset-top); }
@@ -57,7 +63,7 @@
   .menu footer a { display: inline-flex; align-items: center; gap: .28em; font-size: clamp(30px, 4.5vw, 64px); text-decoration: none; }
   .menu footer a::after { content: ""; width: .42em; height: .42em; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; }
   @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: calc(36px + env(safe-area-inset-bottom)); } .menu footer a { font-size: 34px; line-height: 1; } }
-  .menu a { font-family: Anton, sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
+  .menu a { font-family: Anton, "Anton Fallback", sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
   @media (max-width: 800px) { .menu > a { font-size: 9.4vw; white-space: nowrap; } } /* sized so "Artist & Songwriters" stays on one line */
   .menu a:hover { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
   /* the docked header logo, as a cream copy inside the panel: the wipe uncovers it as if it had always been there */
@@ -77,6 +83,7 @@
   /* Mark: big echoing logo in the hero that shrinks into the header logo on scroll (JS drives the transform) */
   #mark { position: fixed; top: 0; left: 0; z-index: 11; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--pink); text-decoration: none; }
   #mark .layer { grid-area: 1/1; will-change: transform; transform-origin: 50% 50%; }
+  #mark { visibility: hidden; } /* shown by the script after its first placement, so it never flashes in the wrong spot */
   #mark { cursor: default; -webkit-tap-highlight-color: transparent; }
   #mark svg { display: block; width: 100%; fill: currentColor; }
   #mark .layer > svg:first-child { position: relative; z-index: 1; } /* WAYU always paints over PUBLISHING while the letters travel */
@@ -91,8 +98,6 @@
   @media (max-width: 800px) { .hero { height: 40svh; min-height: 330px; } .hero small { display: none; } .about > p { font-size: 20px; } section.about { padding-block: 32px; } .about h2 { margin-bottom: 3vh; } }
   .hero small { position: absolute; bottom: 5vh; font-weight: 600; letter-spacing: .2em; }
 
-  body { transition: opacity .3s; }
-  html.fonts-wait body { opacity: 0; }
   section { padding: 14vh 4vw; }
   section { scroll-margin-top: calc(var(--bar) + 72px); } /* anchor jumps stop just under the fixed header, so each section's title stays visible */
   h2 { line-height: .92; font-size: clamp(56px, 12vw, 180px); margin-bottom: 6vh; }
@@ -102,15 +107,15 @@
   .story h2 { margin-bottom: 4vh; }
   .story .lede { font-size: clamp(20px, 2.2vw, 30px); font-weight: 600; line-height: 1.25; max-width: 24ch; }
   .story .body p { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.6; margin-bottom: 1.2em; max-width: 60ch; }
-  .story .body b { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: 1.25em; letter-spacing: .01em; }
+  .story .body b { font-family: Anton, "Anton Fallback", sans-serif; font-weight: 400; text-transform: uppercase; font-size: 1.25em; letter-spacing: .01em; }
   .founders { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6vh; }
   .founder { display: flex; align-items: center; gap: 12px; background: var(--cream); color: var(--pink); padding: 10px 22px 10px 10px; border-radius: 99px; rotate: -3deg; transition: rotate .3s, scale .3s; }
   .founder:nth-child(2) { rotate: 2deg; }
   .founder:hover { rotate: 0deg; scale: 1.05; }
-  .founder i { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--pink); color: var(--cream); font: 400 22px Anton, sans-serif; font-style: normal; }
+  .founder i { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--pink); color: var(--cream); font: 400 22px Anton, "Anton Fallback", sans-serif; font-style: normal; }
   .founder span { line-height: 1.15; font-weight: 600; }
   .founder small { display: block; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; opacity: .7; }
-  .story .stamp { display: inline-block; margin-top: 2vh; border: 2px dashed var(--cream); border-radius: 8px; padding: 14px 18px; font: 400 clamp(22px, 2.4vw, 34px)/1 Anton, sans-serif; text-transform: uppercase; rotate: -2deg; }
+  .story .stamp { display: inline-block; margin-top: 2vh; border: 2px dashed var(--cream); border-radius: 8px; padding: 14px 18px; font: 400 clamp(22px, 2.4vw, 34px)/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; rotate: -2deg; }
   @media (max-width: 800px) { .story { grid-template-columns: 1fr; } }
   .about { background: var(--pink); color: var(--cream); }
   .about > p { font-size: clamp(24px, 3.4vw, 48px); line-height: 1.2; max-width: 28ch; font-weight: 600; }
@@ -118,7 +123,7 @@
   .values { list-style: none; padding: 0; margin-top: 10vh; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3vw; counter-reset: v; }
   .values li { border-top: 3px solid var(--cream); padding-top: 18px; counter-increment: v; }
   .values li::before { content: "0" counter(v); font-weight: 600; font-size: 14px; letter-spacing: .15em; opacity: .75; }
-  .values h3 { font: 400 clamp(36px, 3.6vw, 60px)/.9 Anton, sans-serif; text-transform: uppercase; margin: 10px 0 12px; overflow-wrap: anywhere; }
+  .values h3 { font: 400 clamp(36px, 3.6vw, 60px)/.9 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; margin: 10px 0 12px; overflow-wrap: anywhere; }
   .values p { font-size: clamp(16px, 1.2vw, 18px); line-height: 1.5; }
   @media (max-width: 800px) { .values { grid-template-columns: 1fr; gap: 22px; margin-top: 32px; } .values h3 { font-size: 40px; } }
 
@@ -127,7 +132,7 @@
   /* shapes overflow their card and run across neighbors; white lines vanish on the cream gaps */
   .writer { position: relative; display: block; aspect-ratio: 4/5; background: var(--pink); color: var(--cream); text-decoration: none; border-radius: 6px; }
   .writer .in { height: 100%; display: flex; flex-direction: column; align-items: center; gap: 4%; padding: 6% 7%; container-type: inline-size; }
-  .writer h3 { font: 400 15cqw/.85 Anton, sans-serif; text-transform: uppercase; text-align: center; letter-spacing: -.01em; height: 26cqw; display: flex; align-items: center; justify-content: center; } /* room for two lines, so the photo box sits at the same height on every card */
+  .writer h3 { font: 400 15cqw/.85 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; text-align: center; letter-spacing: -.01em; height: 26cqw; display: flex; align-items: center; justify-content: center; } /* room for two lines, so the photo box sits at the same height on every card */
   .writer h3.long { font-size: 11cqw; }
   /* the photo fills the whole card (behind the name and tagline); it's tinted from the start, so nothing jumps while photos arrive */
   .writer .in { position: relative; }
@@ -135,7 +140,7 @@
   .writer .img { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; background: color-mix(in srgb, var(--pink), #000 14%); }
   .writer .img:has(img)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(var(--pink), transparent 32%, transparent 62%, var(--pink)); opacity: .8; } /* pink fade top and bottom keeps the text readable */
   .writer .img.ph, .writer .img.broken { display: grid; place-items: center; background: none; } /* no photo yet: plain pink card with initials */
-  .writer .img.ph::before, .writer .img.broken::before { content: attr(data-ph); font: 400 30cqw Anton, sans-serif; letter-spacing: .02em; }
+  .writer .img.ph::before, .writer .img.broken::before { content: attr(data-ph); font: 400 30cqw Anton, "Anton Fallback", sans-serif; letter-spacing: .02em; }
   .writer img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); transition: filter .4s, transform .4s, opacity .5s; }
   .writer img:not(.ok) { opacity: 0; } /* each photo fades in as it arrives */
   .writer:hover img { filter: none; transform: scale(1.05); }
@@ -164,20 +169,20 @@
   .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
   .tile { position: relative; overflow: hidden; grid-column: span 4; border: 2px dashed var(--pink); border-radius: 6px; padding: clamp(20px, 3vw, 36px); transition: transform .3s, background .3s; }
   .tile:hover { background-color: #fff; } /* lights up, never moves */
-  .tile h3 { font: 400 clamp(30px, 3.4vw, 52px)/.9 Anton, sans-serif; text-transform: uppercase; margin: 16px 0 10px; }
+  .tile h3 { font: 400 clamp(30px, 3.4vw, 52px)/.9 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; margin: 16px 0 10px; }
   .w6 { grid-column: span 6; }
-  .sticker { position: absolute; top: -14px; right: 18px; background: var(--cream); color: var(--pink); border: 2px solid var(--pink); font: 400 18px/1 Anton, sans-serif; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; rotate: 4deg; } .w12 { grid-column: span 12; }
+  .sticker { position: absolute; top: -14px; right: 18px; background: var(--cream); color: var(--pink); border: 2px solid var(--pink); font: 400 18px/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; padding: 6px 12px; border-radius: 6px; rotate: 4deg; } .w12 { grid-column: span 12; }
   .tile .who { font-weight: 600; margin-bottom: 10px; }
   .tile:has(.sticker) { overflow: visible; z-index: 1; } /* tag pokes above the tile edge */
   /* geometric badges (instead of emoji) */
-  .badge { width: 64px; aspect-ratio: 1; display: grid; place-items: center; color: var(--cream); font: 400 30px/1 Anton, sans-serif; transition: transform .4s; }
+  .badge { width: 64px; aspect-ratio: 1; display: grid; place-items: center; color: var(--cream); font: 400 30px/1 Anton, "Anton Fallback", sans-serif; transition: transform .4s; }
   .badge.diamond { background: var(--pink); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
   .badge.shield { background: color-mix(in srgb, var(--pink), #fff 40%); clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%); }
   .badge.hex { background: color-mix(in srgb, var(--pink), #000 25%); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
   .tile:hover .badge { transform: rotate(-12deg) scale(1.15); }
   /* wavy flags listing where the money comes from */
   .flags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .flags span { font: 400 16px/1 Anton, sans-serif; text-transform: uppercase; background: var(--pink); color: var(--cream); padding: 6px 10px; transform: skewY(-5deg); border-radius: 3px; }
+  .flags span { font: 400 16px/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; background: var(--pink); color: var(--cream); padding: 6px 10px; transform: skewY(-5deg); border-radius: 3px; }
   .flags span:nth-child(even) { transform: skewY(5deg); }
   .tile:hover .flags span { animation: wave .6s ease-in-out infinite alternate; }
   .tile:hover .flags span:nth-child(even) { animation-delay: -.3s; }
@@ -208,7 +213,7 @@
   .sg .card.arm { opacity: 0; translate: 0 28px; transition: opacity .5s, translate .5s, background .3s; }
   .sg .card.arm.in { opacity: 1; translate: 0 0; }
   @media (max-width: 800px) { .sg .card.arm { translate: -28px 0; } .sg .card.arm.in { translate: 0 0; } } /* phones: cards slide in from the left, like the column is feeding them in */
-  .sg .verb { font: 400 clamp(52px, 6vw, 96px)/.85 Anton, sans-serif; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; justify-content: space-between; gap: .15em; height: .85em; margin: 0 0 10px; }
+  .sg .verb { font: 400 clamp(52px, 6vw, 96px)/.85 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; justify-content: space-between; gap: .15em; height: .85em; margin: 0 0 10px; }
   .sg .verb svg { width: .9em; height: .9em; flex: none; } /* same box for all three head icons; the verb's fixed height keeps the heads level */
   /* inline svg (a CSS mask of the file fails when the page is opened from disk) so it takes the head's colour: pink at rest, cream on the slab */
   .sg .tag { font-weight: 600; font-size: clamp(16px, 1.4vw, 20px); }
@@ -216,14 +221,14 @@
   .sg .card .sticker { top: -12px; right: 14px; font-size: 14px; padding: 4px 9px; } /* value tag: which of the four values this service keeps */
   .sg .card .ic { grid-row: 1 / span 4; width: 44px; height: 44px; display: grid; place-items: center; }
   .sg .card .ic img, .sg .card .ic svg { max-width: 100%; max-height: 100%; width: auto; height: 100%; }
-  .sg .card .ic b { font: 400 34px/1 Anton, sans-serif; }
-  .sg h4 { font: 400 clamp(22px, 1.9vw, 28px)/.95 Anton, sans-serif; text-transform: uppercase; margin: 2px 0 8px; }
+  .sg .card .ic b { font: 400 34px/1 Anton, "Anton Fallback", sans-serif; }
+  .sg h4 { font: 400 clamp(22px, 1.9vw, 28px)/.95 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; margin: 2px 0 8px; }
   .sg .card p { font-size: 15px; line-height: 1.45; }
   .sg .card .flags { margin-top: 12px; } .sg .card .flags span { font-size: 14px; padding: 5px 9px; }
   .checks { list-style: none; padding: 0; margin: 14px 0 0; font-weight: 600; font-size: 14px; display: grid; gap: 6px; }
   .checks li::before { content: "✓"; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 8px; border: 2px solid currentColor; border-radius: 50%; font-size: 11px; }
   .payout { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-weight: 600; }
-  .payout span { background: var(--pink); color: var(--cream); border-radius: 99px; padding: 6px 14px; font: 400 18px/1 Anton, sans-serif; text-transform: uppercase; }
+  .payout span { background: var(--pink); color: var(--cream); border-radius: 99px; padding: 6px 14px; font: 400 18px/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; }
   @media (max-width: 800px) { .sg { grid-template-columns: 1fr; gap: 28px; } .sg .tile { grid-column: auto; } }
   /* solid pink tiles */
   .tile.solid { background: var(--pink); color: var(--cream); border-style: solid; }
@@ -249,8 +254,8 @@
   .inquiry { max-width: 680px; margin: 0 auto; text-align: left; border: 2px dashed var(--pink); border-radius: 6px; padding: clamp(24px, 4vw, 44px); background: #fff; transition: background .3s; }
   .inquiry:hover { background: color-mix(in srgb, #fff, var(--cream) 40%); }
   .inquiry .field { margin: 0 0 28px; padding: 0; border: 0; min-width: 0; }
-  .inquiry label { display: block; font: 400 clamp(20px, 2.4vw, 28px)/1.05 Anton, sans-serif; text-transform: uppercase; margin-bottom: 10px; }
-  .inquiry .q { font: 600 clamp(15px, 1.6vw, 17px)/1.45 Inter, sans-serif; text-transform: none; margin-bottom: 14px; max-width: 52ch; }
+  .inquiry label { display: block; font: 400 clamp(20px, 2.4vw, 28px)/1.05 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; margin-bottom: 10px; }
+  .inquiry .q { font: 600 clamp(15px, 1.6vw, 17px)/1.45 Inter, "Inter Fallback", sans-serif; text-transform: none; margin-bottom: 14px; max-width: 52ch; }
   .inquiry input[type="text"]:not([name="_honey"]), .inquiry input[type="email"] { width: 100%; padding: 14px 16px; border: 2px solid var(--pink); border-radius: 6px; background: var(--cream); color: var(--ink); font: inherit; transition: background .2s, box-shadow .2s; }
   .inquiry input[type="text"]:not([name="_honey"]):focus, .inquiry input[type="email"]:focus { outline: none; background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--pink), transparent 65%); }
   .inquiry input[name="_honey"] { width: 1px; height: 1px; padding: 0; border: 0; }
@@ -262,7 +267,7 @@
   .inquiry .opt input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
   .inquiry .opt:hover span { transform: scale(1.04) rotate(-1deg); }
   .inquiry .actions { margin-top: 36px; text-align: center; }
-  .inquiry .submit { display: block; width: 100%; border: 0; cursor: pointer; font: 400 clamp(26px, 3.4vw, 38px)/1 Anton, sans-serif; text-transform: uppercase; letter-spacing: .02em; padding: 22px 28px; } /* big, loud and full-width */
+  .inquiry .submit { display: block; width: 100%; border: 0; cursor: pointer; font: 400 clamp(26px, 3.4vw, 38px)/1 Anton, "Anton Fallback", sans-serif; text-transform: uppercase; letter-spacing: .02em; padding: 22px 28px; } /* big, loud and full-width */
   .inquiry .submit:disabled { opacity: .55; cursor: wait; transform: none; }
   .inquiry .note { margin-top: 18px; text-align: center; font-size: 15px; font-weight: 600; min-height: 1.5em; }
   .inquiry .note.ok { color: var(--ink); }
@@ -969,8 +974,10 @@
       if (l.t !== lt) { l.t = lt; l.el.style.transform = lt; }
       if (l.o !== lo) { l.o = lo; l.el.style.opacity = lo; }
     }
+    if (!mark.style.visibility) mark.style.visibility = "visible";
     loop.hero = idle() ? 0 : requestAnimationFrame(tick);
   };
+  setTimeout(() => mark.style.visibility = "visible", 1500); // safety net if the first frame never comes
   // glass shapes: each card has its own idle rhythm and reacts to the cursor relative to itself;
   // every shape leaves a trail of outlined echoes that lag behind it
   let cx = -1e4, cy = -1e4;
@@ -1043,8 +1050,6 @@
   };
   for (const ev of ["pointermove", "scroll", "resize", "click"]) addEventListener(ev, wake, { passive: true });
   wake();
-  // reveal once fonts are in and the logo has been drawn at least once (two frames), so nothing visibly jumps into place
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { wake(); requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove("fonts-wait"))); });
 
   // funnel arrows: they leave one point and draw one at a time as you scroll (progress from where the source tile sits in the viewport); its card appears when the arrow lands
   (() => {
