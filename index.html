@@ -51,8 +51,8 @@
   .menu footer { position: absolute; inset: auto 0 0; justify-content: flex-start; align-items: baseline; gap: 6px 36px; padding: 26px 4vw 30px; font-size: 15px; font-weight: 600; }
   .menu .fwave { position: absolute; left: 0; top: -36px; width: 100%; height: 72px; pointer-events: none; } /* the footer rule: same wave line as the hero, in cream */
   .menu footer span { letter-spacing: .12em; text-transform: uppercase; }
-  .menu footer a { font-size: clamp(30px, 4.5vw, 64px); text-decoration: none; }
-  .menu footer a::after { content: " ↗"; font-size: .6em; }
+  .menu footer a { display: inline-flex; align-items: center; gap: .28em; font-size: clamp(30px, 4.5vw, 64px); text-decoration: none; }
+  .menu footer a::after { content: ""; width: .42em; height: .42em; flex: none; background: currentColor; -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 18 18 6M18 6H9M18 6v9' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center / contain no-repeat; }
   @media (max-width: 800px) { .menu footer { flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: 36px; } .menu footer a { font-size: 34px; line-height: 1; } }
   .menu a { font-family: Anton, sans-serif; text-transform: uppercase; text-decoration: none; color: inherit; font-size: clamp(44px, 8vw, 110px); line-height: 1; width: fit-content; }
   .menu a:hover { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .08em; }
@@ -62,8 +62,13 @@
   #mlogo svg { display: block; width: 100%; fill: currentColor; }
   #mlogo .layer > svg:first-child { position: relative; z-index: 1; }
   #mlogo .pub { margin-top: 3cqw; overflow: visible; }
-  .menu .x { position: absolute; top: 18px; right: 4vw; width: 44px; height: 44px; background: none; border: 0; color: inherit; font-size: 38px; line-height: 1; cursor: pointer; }
-  @media (prefers-reduced-motion: reduce) { .menu, .menu.open { transition: none; } }
+  .menu .x { position: absolute; top: calc(var(--bar) + 14px); right: 4vw; width: 44px; height: 44px; background: none; border: 0; color: inherit; cursor: pointer; }
+  .menu .x::before, .menu .x::after { content: ""; position: absolute; left: 8px; top: 20.5px; width: 28px; height: 3px; border-radius: 3px; background: currentColor; transition: transform .5s cubic-bezier(.7,0,.2,1); }
+  .menu .x::before { transform: rotate(0deg) scaleX(.35); }
+  .menu .x::after { transform: rotate(0deg) scaleX(.35); }
+  .menu.open .x::before { transform: rotate(45deg) scaleX(1); transition-delay: .12s; }
+  .menu.open .x::after { transform: rotate(-45deg) scaleX(1); transition-delay: .2s; }
+  @media (prefers-reduced-motion: reduce) { .menu, .menu.open { transition: none; } .menu .x::before, .menu .x::after { transition: none; transform: rotate(45deg) scaleX(1); } .menu .x::after { transform: rotate(-45deg) scaleX(1); } }
 
   /* Mark: big echoing logo in the hero that shrinks into the header logo on scroll (JS drives the transform) */
   #mark { position: fixed; top: 0; left: 0; z-index: 11; display: grid; grid-template-columns: 100%; transform-origin: 0 0; container-type: inline-size; color: var(--pink); text-decoration: none; }
@@ -132,7 +137,10 @@
   @media (max-width: 700px) {
     .grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62vw; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -4vw; padding: 0 4vw 8px; scroll-padding: 0 4vw; scrollbar-width: none; }
     .grid::-webkit-scrollbar { display: none; }
-    .writer { scroll-snap-align: start; }
+    .writer { scroll-snap-align: start; overflow: clip; } /* rings stay inside the card; the scroller would otherwise let them cover the next photo */
+  }
+  @media (max-width: 960px) and (hover: none) {
+    .writer { overflow: clip; }
   }
   /* faded inner border: soft white glow on the inside edge instead of a hard line */
   .glass { position: absolute; z-index: 1; pointer-events: none; will-change: transform; }
@@ -257,7 +265,7 @@
 
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   @media (prefers-reduced-motion: reduce) { .sg .hl, .sg .head { transition: none; } .tile:hover .flags span { animation: none; } #mark .layer:not(:last-child), .glass { display: none; } }
-  @media (max-width: 600px) { .pill { padding: 8px 14px; font-size: 15px; } }
+  @media (max-width: 600px) { .pill { padding: 8px 14px; font-size: 15px; } header .pill { display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 36px; padding: 0 14px; } }
 </style>
 </head>
 <body>
@@ -297,7 +305,7 @@
   </nav>
 </header>
 <div class="menu" id="menu" aria-label="Menu">
-  <button class="x" aria-label="Close menu">×</button>
+  <button class="x" aria-label="Close menu"></button>
   <a href="#story">About us</a>
   <a href="#writers">Artist & Songwriters</a>
   <a href="#contact">Contact us</a>
@@ -946,6 +954,7 @@
     return { el: g, card: g.parentElement, d: +g.dataset.depth, x: 0, y: 0, r: 0, ghosts };
   });
   const float = () => {
+    const compact = innerWidth <= 700 || (innerWidth <= 960 && matchMedia("(hover: none)").matches);
     for (const s of shapes) {
       const r = s.card.getBoundingClientRect();
       if (r.bottom < 0 || r.top > innerHeight) continue;
@@ -956,12 +965,25 @@
       const sy = (r.top + r.height / 2 - innerHeight / 2) * .3; // distance from screen center drives scroll motion
       let tx = lx * 50 * s.d;
       let ty = (ly * 50 + sy) * s.d;
-      // hovering the card: push each shape out toward the nearest edge so the name and photo are clear;
-      // the card's overflow clips them, leaving slivers peeking in from the sides
-      if (over) {
+      // push the rings toward the edge they were seeded on, leaving a sliver on the card
+      const shove = (extra = 0) => {
         const ox = s.el.offsetLeft + s.el.offsetWidth / 2 - r.width / 2, oy = s.el.offsetTop + s.el.offsetHeight / 2 - r.height / 2;
-        const len = Math.hypot(ox, oy) || 1, push = Math.max(r.width, r.height) * .45 + s.el.offsetWidth * .12; // far enough that only an edge sliver stays
-        tx = ox / len * push - (lx * 20); ty = oy / len * push;
+        const len = Math.hypot(ox, oy) || 1, push = Math.max(r.width, r.height) * .45 + s.el.offsetWidth * .12 + extra;
+        return [ox / len * push, oy / len * push];
+      };
+      // hovering the card: clear the name and photo
+      if (over) {
+        const [px, py] = shove();
+        tx = px - (lx * 20); ty = py;
+      } else if (compact) {
+        // no hover on a phone: the card you're looking at slides its rings off the portrait;
+        // cards sitting to the side stay a little further on, so swiping reads as the photo opening up
+        const dx = Math.abs(r.left + r.width / 2 - innerWidth / 2) / r.width;
+        const dy = Math.abs(r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+        const focus = Math.max(0, 1 - Math.hypot(dx, dy * 1.4));
+        const amount = .62 + focus * .16; // side cards keep a little more ring; the card in front opens further
+        const [px, py] = shove();
+        tx = px * amount; ty = py * amount;
       }
       const tr = (lx * 25 + sy * .15) * s.d; // shapes also spin as you scroll
       s.x += (tx - s.x) * .12; s.y += (ty - s.y) * .12; s.r += (tr - s.r) * .12;
